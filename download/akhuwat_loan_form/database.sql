@@ -78,6 +78,21 @@ INSERT INTO admin_users (username, email, password) VALUES
 ('admin', 'admin@akhuwat.com', '$2y$10$N9qo8uLOickgx2ZMRZoMy.MQDqoVZJYJj1l8Z8jJH8jJj1l8Z8jJj');
 
 -- ============================================================
+-- TABLE: contact_messages
+-- Contact form ke messages yahan save honge
+-- ============================================================
+CREATE TABLE IF NOT EXISTS contact_messages (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(150) NOT NULL COMMENT 'Bhejne wale ka naam',
+    email VARCHAR(100) DEFAULT NULL COMMENT 'Email (optional)',
+    phone VARCHAR(20) NOT NULL COMMENT 'Phone number',
+    subject VARCHAR(200) DEFAULT NULL COMMENT 'Subject (optional)',
+    message TEXT NOT NULL COMMENT 'Asal message',
+    is_read TINYINT(1) DEFAULT 0 COMMENT 'Admin ne padha ya nahi',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- ============================================================
 -- Test data (optional - dekhne ke liye ke data kaisa save hota hai)
 -- ============================================================
 -- INSERT INTO loan_applications (full_name, father_name, cnic_number, phone_number, 

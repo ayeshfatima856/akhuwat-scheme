@@ -64,18 +64,29 @@ Agar XAMPP installed nahi hai to:
 ```
 akhuwat_loan_form/
 │
-├── index.php              ← Main loan application form (users bharte hain)
+├── index.php              ← Homepage (professional landing page with animations)
+├── about.php              ← About Us page
+├── services.php           ← Loan types page
+├── contact.php            ← Contact form page
+├── apply.php              ← Loan application form (purani wahi form)
 ├── database.sql           ← Database file (phpMyAdmin mein import karna)
 ├── README.md              ← Yeh file (instructions)
 │
 ├── includes/
-│   └── config.php         ← Database connection + helper functions
+│   ├── config.php         ← Database connection + helper functions
+│   ├── header.php         ← Common header (navbar, preloader, WhatsApp button)
+│   └── footer.php         ← Common footer (footer section + JS files)
 │
 ├── assets/
 │   ├── css/
+│   │   ├── main.css       ← Website ki main styling (professional design)
 │   │   └── style.css      ← Form ki styling (green theme)
 │   ├── js/
+│   │   ├── main.js        ← Website JS (preloader, animations, counter)
 │   │   └── validation.js  ← Form validation (CNIC, phone, etc.)
+│   ├── images/
+│   │   ├── logo.svg       ← Akhuwat Scheme logo
+│   │   └── favicon.svg    ← Browser tab icon
 │   └── uploads/           ← User ki upload ki hui files yahan save hoti hain
 │       ├── photo/         ← Personal photos
 │       ├── cnic_front/    ← CNIC front images
@@ -93,8 +104,12 @@ akhuwat_loan_form/
 
 ## 🎯 KYA KAR SAKTE HAIN?
 
-### 👤 User (Public Form):
-- Form bhar kar loan apply karna
+### 👤 User (Public Website):
+- Professional homepage dekhna (with intro animation)
+- Loan types/services dekhna
+- Apply page se loan application form bharna
+- Contact form ya WhatsApp raaste se raabta karna
+- WhatsApp floating button se direct chat
 - Apni photo, CNIC front/back, utility bill upload karna
 - CNIC aur phone number auto-format hota hai
 - Real-time validation (galat input pe error dikhata hai)
