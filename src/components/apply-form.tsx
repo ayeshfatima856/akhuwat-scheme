@@ -373,9 +373,8 @@ export function ApplyForm({ open, onClose, presetLoanType, presetPlan }: ApplyFo
               </p>
             </div>
 
-            <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-4">
+            <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4">
               {[
-                { name: 'photo', label: 'Personal Photo', icon: '📷', required: true },
                 { name: 'cnicFront', label: 'CNIC Front', icon: '🆔', required: true },
                 { name: 'cnicBack', label: 'CNIC Back', icon: '🆔', required: true },
                 { name: 'utilityBill', label: 'Utility Bill', icon: '📄', required: false },

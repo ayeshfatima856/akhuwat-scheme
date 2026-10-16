@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { AnimateIn } from './animations'
 import { useToast } from '@/hooks/use-toast'
+import { SITE_CONFIG, getWhatsAppLink, getPhoneLink, getEmailLink } from '@/lib/site-config'
 
 export function ContactSection() {
   const [submitting, setSubmitting] = useState(false)
@@ -133,14 +134,14 @@ export function ContactSection() {
                 📞 Quick Contact
               </h4>
               
-              <ContactItem icon="📱" label="Phone" value="+92 308 2171396" href="tel:+923082171396" />
-              <ContactItem icon="💬" label="WhatsApp" value="Chat Now →" href="https://wa.me/923082171396" />
-              <ContactItem icon="📧" label="Email" value="info@akhuwatscheme.com" href="mailto:info@akhuwatscheme.com" />
-              <ContactItem icon="🕒" label="Working Hours" value="Mon - Sat: 9:00 AM - 6:00 PM" />
-              <ContactItem icon="📍" label="Address" value="Lahore, Punjab, Pakistan" />
+              <ContactItem icon="📱" label="Phone" value={SITE_CONFIG.PHONE} href={getPhoneLink()} />
+              <ContactItem icon="💬" label="WhatsApp" value="Chat Now →" href={getWhatsAppLink()} />
+              <ContactItem icon="📧" label="Email" value={SITE_CONFIG.EMAIL} href={getEmailLink()} />
+              <ContactItem icon="🕒" label="Working Hours" value={SITE_CONFIG.WORKING_HOURS} />
+              <ContactItem icon="📍" label="Address" value={SITE_CONFIG.ADDRESS} />
 
               <a
-                href={`https://wa.me/923082171396?text=${encodeURIComponent('Assalam-o-Alaikum! Mujhe Akhuwat Scheme ke baare mein maloomat chahiye.')}`}
+                href={getWhatsAppLink()}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="block w-full mt-5 py-3 rounded-full font-semibold text-white text-center transition-transform hover:-translate-y-0.5"
@@ -256,17 +257,17 @@ export function Footer() {
             <h5 style={{ color: 'white', fontSize: '1.1rem', marginBottom: 20, fontWeight: 600 }}>Contact Us</h5>
             <div className="space-y-3 text-sm" style={{ color: 'rgba(255,255,255,0.7)' }}>
               <div className="flex items-center gap-3">
-                <span style={{ fontSize: '1.1rem' }}>📍</span> Lahore, Punjab, Pakistan
+                <span style={{ fontSize: '1.1rem' }}>📍</span> {SITE_CONFIG.ADDRESS}
               </div>
               <div className="flex items-center gap-3">
                 <span style={{ fontSize: '1.1rem' }}>📱</span>
-                <a href="tel:+923082171396" style={{ color: 'inherit' }}>+92 308 2171396</a>
+                <a href={getPhoneLink()} style={{ color: 'inherit' }}>{SITE_CONFIG.PHONE}</a>
               </div>
               <div className="flex items-center gap-3">
-                <span style={{ fontSize: '1.1rem' }}>📧</span> info@akhuwatscheme.com
+                <span style={{ fontSize: '1.1rem' }}>📧</span> {SITE_CONFIG.EMAIL}
               </div>
               <div className="flex items-center gap-3">
-                <span style={{ fontSize: '1.1rem' }}>🕒</span> Mon - Sat: 9:00 AM - 6:00 PM
+                <span style={{ fontSize: '1.1rem' }}>🕒</span> {SITE_CONFIG.WORKING_HOURS}
               </div>
             </div>
           </div>

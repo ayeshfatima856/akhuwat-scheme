@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { MessageCircle, ArrowUp } from 'lucide-react'
+import { getWhatsAppLink } from '@/lib/site-config'
 
 export function FloatingButtons() {
   const [showScrollTop, setShowScrollTop] = useState(false)
@@ -12,16 +13,14 @@ export function FloatingButtons() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  const whatsappNumber = '923082171396' // 03082171396 with country code
-  const whatsappMessage = encodeURIComponent(
-    'Assalam-o-Alaikum! Mujhe Akhuwat Scheme ke baare mein maloomat chahiye.'
-  )
+  // WhatsApp link config se aa raha hai (site-config.ts mein change karein)
+  const whatsappLink = getWhatsAppLink()
 
   return (
     <>
       {/* WhatsApp Floating Button */}
       <a
-        href={`https://wa.me/${whatsappNumber}?text=${whatsappMessage}`}
+        href={whatsappLink}
         target="_blank"
         rel="noopener noreferrer"
         className="fixed bottom-6 right-6 z-40 flex items-center justify-center text-white transition-transform hover:scale-110"

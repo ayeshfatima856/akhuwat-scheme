@@ -1,14 +1,15 @@
 'use client'
 
 import { AnimateIn } from './animations'
+import { getWhatsAppLink } from '@/lib/site-config'
 
 interface HeroProps {
   onApplyClick: () => void
 }
 
 export function Hero({ onApplyClick }: HeroProps) {
-  const whatsappLink = 'https://wa.me/923082171396?text=' + 
-    encodeURIComponent('Assalam-o-Alaikum! Mujhe Akhuwat Scheme ke baare mein maloomat chahiye.')
+  // WhatsApp link config se aa raha hai (site-config.ts mein change karein)
+  const whatsappLink = getWhatsAppLink()
 
   return (
     <section
