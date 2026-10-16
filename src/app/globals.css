@@ -129,3 +129,187 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* ============================================================
+   PROFESSIONAL HOVER ANIMATIONS & UTILITIES
+   ============================================================ */
+
+/* Smooth hover lift effect for cards */
+.hover-lift {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.hover-lift:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(15, 82, 40, 0.15);
+}
+
+/* Glow hover effect */
+.hover-glow {
+  transition: all 0.4s ease;
+}
+.hover-glow:hover {
+  box-shadow: 0 0 30px rgba(26, 122, 60, 0.4);
+  transform: scale(1.02);
+}
+
+/* Image zoom on hover */
+.hover-zoom {
+  overflow: hidden;
+}
+.hover-zoom img {
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.hover-zoom:hover img {
+  transform: scale(1.1);
+}
+
+/* Button shine effect */
+.btn-shine {
+  position: relative;
+  overflow: hidden;
+}
+.btn-shine::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+  transition: left 0.6s ease;
+}
+.btn-shine:hover::before {
+  left: 100%;
+}
+
+/* Card border gradient on hover */
+.hover-border-gradient {
+  position: relative;
+  transition: all 0.4s ease;
+}
+.hover-border-gradient::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 2px;
+  background: linear-gradient(135deg, #1a7a3c, #d4af37);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+.hover-border-gradient:hover::after {
+  opacity: 1;
+}
+
+/* Slide-in animations for modals */
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-slide-up {
+  animation: slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.animate-fade-in {
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+.animate-scale-in {
+  animation: scaleIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ============================================================
+   MOBILE RESPONSIVE OPTIMIZATIONS
+   ============================================================ */
+
+/* Mobile-first font sizes */
+@media (max-width: 640px) {
+  html {
+    font-size: 14px;
+  }
+  
+  /* Reduce padding on mobile */
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  
+  /* Smaller touch targets but still accessible */
+  button, a {
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  /* Prevent text selection on buttons */
+  button {
+    -webkit-user-select: none;
+    user-select: none;
+  }
+}
+
+/* Tablet adjustments */
+@media (min-width: 641px) and (max-width: 1024px) {
+  .container {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+
+/* Smooth scrolling on mobile */
+@media (max-width: 768px) {
+  html {
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* Custom scrollbar (desktop only) */
+@media (min-width: 769px) {
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #f0fdf4;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #1a7a3c, #0f5228);
+    border-radius: 4px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, #0f5228, #1a7a3c);
+  }
+}
+
+/* Mobile modal adjustments */
+@media (max-width: 640px) {
+  .modal-container {
+    margin: 0 !important;
+    max-width: 100% !important;
+    width: 100% !important;
+    min-height: 100vh;
+    border-radius: 0 !important;
+  }
+  
+  .modal-body {
+    padding: 1rem !important;
+  }
+}
+
+/* Touch-friendly buttons on mobile */
+@media (max-width: 768px) {
+  button, .btn {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}

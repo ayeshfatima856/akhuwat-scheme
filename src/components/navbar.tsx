@@ -6,9 +6,10 @@ import { Menu, X } from 'lucide-react'
 interface NavbarProps {
   onApplyClick: () => void
   onSecretAdminClick: () => void
+  onAboutClick: () => void
 }
 
-export function Navbar({ onApplyClick, onSecretAdminClick }: NavbarProps) {
+export function Navbar({ onApplyClick, onSecretAdminClick, onAboutClick }: NavbarProps) {
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
   const logoClickCount = useRef(0)
@@ -60,15 +61,19 @@ export function Navbar({ onApplyClick, onSecretAdminClick }: NavbarProps) {
   }
 
   const navLinks = [
-    { label: 'Home', target: 'home' },
-    { label: 'About', target: 'about' },
-    { label: 'Plans', target: 'plans' },
-    { label: 'Process', target: 'process' },
-    { label: 'Contact', target: 'contact' },
+    { label: 'Home', target: 'home', type: 'scroll' },
+    { label: 'About', target: 'about', type: 'modal' },
+    { label: 'Plans', target: 'plans', type: 'scroll' },
+    { label: 'Process', target: 'process', type: 'scroll' },
+    { label: 'Contact', target: 'contact', type: 'scroll' },
   ]
 
-  const handleNavClick = (target: string) => {
-    document.getElementById(target)?.scrollIntoView({ behavior: 'smooth' })
+  const handleNavClick = (link: { target: string; type: string }) => {
+    if (link.type === 'modal' && link.target === 'about') {
+      onAboutClick()
+    } else {
+      document.getElementById(link.target)?.scrollIntoView({ behavior: 'smooth' })
+    }
     setMobileOpen(false)
   }
 
@@ -123,7 +128,7 @@ export function Navbar({ onApplyClick, onSecretAdminClick }: NavbarProps) {
           {navLinks.map((link) => (
             <button
               key={link.target}
-              onClick={() => handleNavClick(link.target)}
+              onClick={() => handleNavClick(link)}
               className="px-4 py-2 rounded-full font-medium text-sm transition-all duration-300 hover:bg-[#e8f5e9] hover:text-[#1a7a3c] relative group"
               style={{ color: '#2c3e50' }}
             >
@@ -162,7 +167,7 @@ export function Navbar({ onApplyClick, onSecretAdminClick }: NavbarProps) {
             {navLinks.map((link) => (
               <button
                 key={link.target}
-                onClick={() => handleNavClick(link.target)}
+                onClick={() => handleNavClick(link)}
                 className="text-left px-4 py-3 rounded-lg font-medium text-sm hover:bg-[#e8f5e9] hover:text-[#1a7a3c] transition-all"
                 style={{ color: '#2c3e50' }}
               >

@@ -32,7 +32,7 @@ export function ApplyForm({ open, onClose, presetLoanType, presetPlan }: ApplyFo
   const [formData, setFormData] = useState({
     fullName: '', fatherName: '', cnicNumber: '', phoneNumber: '',
     email: '', ageAbove18: '', gender: '', maritalStatus: '',
-    address: '', city: '', province: '',
+    city: '', province: '',
     loanType: '', loanAmount: '', loanPurpose: '', monthlyIncome: '',
     confirmInfo: false,
   })
@@ -136,7 +136,7 @@ export function ApplyForm({ open, onClose, presetLoanType, presetPlan }: ApplyFo
         setFormData({
           fullName: '', fatherName: '', cnicNumber: '', phoneNumber: '',
           email: '', ageAbove18: '', gender: '', maritalStatus: '',
-          address: '', city: '', province: '',
+          city: '', province: '',
           loanType: '', loanAmount: '', loanPurpose: '', monthlyIncome: '',
           confirmInfo: false,
         })
@@ -285,39 +285,23 @@ export function ApplyForm({ open, onClose, presetLoanType, presetPlan }: ApplyFo
                   <option value="Unmarried">Unmarried (Single)</option>
                 </select>
               </div>
-            </div>
-          </div>
-
-          {/* Address */}
-          <div>
-            <h3 className="mb-4 pb-2 border-b-2" style={{ color: '#1a7a3c', fontFamily: 'var(--font-playfair), serif', fontSize: '1.2rem', borderColor: '#e8f5e9' }}>
-              📍 Address Information
-            </h3>
-            <div className="space-y-4">
               <div>
-                <label className={labelClass}>Complete Address <span style={{ color: 'red' }}>*</span></label>
-                <textarea name="address" value={formData.address} onChange={handleChange} required rows={2}
-                  placeholder="House #, Street, Area, etc." className={inputClass} />
+                <label className={labelClass}>City <span style={{ color: 'red' }}>*</span></label>
+                <input type="text" name="city" value={formData.city} onChange={handleChange} required
+                  placeholder="e.g., Lahore" className={inputClass} />
               </div>
-              <div className="grid md:grid-cols-2 gap-4">
-                <div>
-                  <label className={labelClass}>City <span style={{ color: 'red' }}>*</span></label>
-                  <input type="text" name="city" value={formData.city} onChange={handleChange} required
-                    placeholder="e.g., Lahore" className={inputClass} />
-                </div>
-                <div>
-                  <label className={labelClass}>Province <span style={{ color: 'red' }}>*</span></label>
-                  <select name="province" value={formData.province} onChange={handleChange} required className={inputClass}>
-                    <option value="">Select karein</option>
-                    <option value="Punjab">Punjab</option>
-                    <option value="Sindh">Sindh</option>
-                    <option value="KPK">Khyber Pakhtunkhwa (KPK)</option>
-                    <option value="Balochistan">Balochistan</option>
-                    <option value="Gilgit-Baltistan">Gilgit-Baltistan</option>
-                    <option value="AJK">Azad Jammu & Kashmir</option>
-                    <option value="Islamabad">Islamabad Capital Territory</option>
-                  </select>
-                </div>
+              <div>
+                <label className={labelClass}>Province <span style={{ color: 'red' }}>*</span></label>
+                <select name="province" value={formData.province} onChange={handleChange} required className={inputClass}>
+                  <option value="">Select karein</option>
+                  <option value="Punjab">Punjab</option>
+                  <option value="Sindh">Sindh</option>
+                  <option value="KPK">Khyber Pakhtunkhwa (KPK)</option>
+                  <option value="Balochistan">Balochistan</option>
+                  <option value="Gilgit-Baltistan">Gilgit-Baltistan</option>
+                  <option value="AJK">Azad Jammu & Kashmir</option>
+                  <option value="Islamabad">Islamabad Capital Territory</option>
+                </select>
               </div>
             </div>
           </div>
@@ -368,29 +352,39 @@ export function ApplyForm({ open, onClose, presetLoanType, presetPlan }: ApplyFo
             </div>
           </div>
 
-          {/* Document Uploads (simulated for demo) */}
+          {/* Document Uploads (with image preview) */}
           <div>
             <h3 className="mb-4 pb-2 border-b-2" style={{ color: '#1a7a3c', fontFamily: 'var(--font-playfair), serif', fontSize: '1.2rem', borderColor: '#e8f5e9' }}>
               📎 Document Uploads
             </h3>
-            <div className="grid md:grid-cols-3 gap-4">
-              {['Personal Photo', 'CNIC Front', 'CNIC Back'].map((doc, i) => (
-                <div key={i}>
-                  <label className={labelClass}>{doc} <span style={{ color: 'red' }}>*</span></label>
-                  <div
-                    className="border-2 border-dashed rounded-xl p-5 text-center cursor-pointer transition-colors hover:bg-[#e8f5e9]"
-                    style={{ borderColor: '#1a7a3c', background: '#f8fafb' }}
-                  >
-                    <Upload size={28} style={{ color: '#1a7a3c', margin: '0 auto 8px' }} />
-                    <div className="text-sm font-semibold" style={{ color: '#2c3e50' }}>Click to upload</div>
-                    <div className="text-xs" style={{ color: '#95a5a6' }}>JPG, PNG (Max 5MB)</div>
-                    <input type="file" className="hidden" accept="image/*" />
-                  </div>
-                </div>
+            
+            {/* Bank Account Number field (required as per Urdu docs) */}
+            <div className="mb-4">
+              <label className={labelClass}>Bank Account Number <span style={{ color: 'red' }}>*</span></label>
+              <input
+                type="text" name="bankAccount" required
+                placeholder="e.g., PK36SCBL0000001123456702"
+                className={inputClass}
+                value={formData.bankAccount || ''}
+                onChange={handleChange}
+              />
+              <p className="text-xs italic mt-1" style={{ color: '#95a5a6' }}>
+                بينک اکاؤنٹ نمبر درج کریں
+              </p>
+            </div>
+
+            <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-4">
+              {[
+                { name: 'photo', label: 'Personal Photo', icon: '📷', required: true },
+                { name: 'cnicFront', label: 'CNIC Front', icon: '🆔', required: true },
+                { name: 'cnicBack', label: 'CNIC Back', icon: '🆔', required: true },
+                { name: 'utilityBill', label: 'Utility Bill', icon: '📄', required: false },
+              ].map((doc, i) => (
+                <FileUploadArea key={i} doc={doc} />
               ))}
             </div>
             <p className="text-xs italic mt-3" style={{ color: '#95a5a6' }}>
-              ℹ️ Demo mode: File uploads are simulated. In production, files would be saved to server.
+              ℹ️ Apni tasveer select karne ke baad preview dikh jayegi. Files securely upload hoti hain.
             </p>
           </div>
 
@@ -432,6 +426,106 @@ export function ApplyForm({ open, onClose, presetLoanType, presetPlan }: ApplyFo
           <small>Asaan Karobar Qarza | Akhuwat Loan Services</small>
         </div>
       </div>
+    </div>
+  )
+}
+
+// ============================================================
+// FILE UPLOAD AREA COMPONENT (with image preview)
+// ============================================================
+function FileUploadArea({ doc }: { doc: { name: string; label: string; icon: string; required: boolean } }) {
+  const [preview, setPreview] = useState<string | null>(null)
+  const [fileName, setFileName] = useState<string>('')
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (file) {
+      setFileName(file.name)
+      if (file.type.startsWith('image/')) {
+        const reader = new FileReader()
+        reader.onload = (ev) => setPreview(ev.target?.result as string)
+        reader.readAsDataURL(file)
+      } else {
+        setPreview(null)
+      }
+    }
+  }
+
+  return (
+    <div>
+      <label className="block text-sm font-semibold mb-1.5 text-[#2c3e50]">
+        {doc.label} {doc.required && <span style={{ color: 'red' }}>*</span>}
+      </label>
+      <label
+        className="block relative cursor-pointer group"
+        style={{
+          border: `2px dashed ${preview ? '#1a7a3c' : '#d1d5db'}`,
+          borderRadius: 12,
+          padding: preview ? 0 : '20px 12px',
+          background: preview ? 'transparent' : '#f8fafb',
+          transition: 'all 0.3s ease',
+          overflow: 'hidden',
+          minHeight: preview ? 'auto' : 120,
+        }}
+      >
+        {preview ? (
+          // Image preview
+          <div className="relative">
+            <img
+              src={preview}
+              alt={doc.label}
+              style={{
+                width: '100%',
+                height: 120,
+                objectFit: 'cover',
+                borderRadius: 10,
+              }}
+            />
+            {/* Change overlay on hover */}
+            <div
+              className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+              style={{
+                background: 'rgba(26, 122, 60, 0.7)',
+                borderRadius: 10,
+                color: 'white',
+                fontSize: '0.85rem',
+                fontWeight: 600,
+              }}
+            >
+              🔄 Change Image
+            </div>
+            {/* Success badge */}
+            <div
+              className="absolute top-1 right-1 px-2 py-0.5 rounded-full text-xs font-bold"
+              style={{ background: '#1a7a3c', color: 'white' }}
+            >
+              ✓
+            </div>
+          </div>
+        ) : (
+          // Upload prompt
+          <div className="text-center">
+            <div style={{ fontSize: '1.8rem', marginBottom: 6 }}>{doc.icon}</div>
+            <div className="text-xs font-semibold mb-1" style={{ color: '#2c3e50' }}>
+              Click to upload
+            </div>
+            <div className="text-xs" style={{ color: '#95a5a6' }}>
+              JPG, PNG, PDF
+            </div>
+          </div>
+        )}
+        <input
+          type="file"
+          className="hidden"
+          accept="image/*,application/pdf"
+          onChange={handleFileChange}
+        />
+      </label>
+      {fileName && (
+        <p className="text-xs mt-1.5 truncate" style={{ color: '#1a7a3c' }}>
+          📎 {fileName}
+        </p>
+      )}
     </div>
   )
 }

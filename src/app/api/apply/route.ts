@@ -8,7 +8,7 @@ export async function POST(request: NextRequest) {
     
     // Validate required fields
     const required = ['fullName', 'fatherName', 'cnicNumber', 'phoneNumber', 
-                      'ageAbove18', 'gender', 'maritalStatus', 'address', 
+                      'ageAbove18', 'gender', 'maritalStatus',
                       'city', 'province', 'loanType', 'loanAmount', 'loanPurpose']
     
     for (const field of required) {
@@ -31,7 +31,7 @@ export async function POST(request: NextRequest) {
         ageAbove18: body.ageAbove18,
         gender: body.gender,
         maritalStatus: body.maritalStatus,
-        address: body.address.trim(),
+        address: body.address?.trim() || 'N/A',
         city: body.city.trim(),
         province: body.province,
         loanType: body.loanType,

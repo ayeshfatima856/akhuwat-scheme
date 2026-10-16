@@ -1,8 +1,10 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { X, LogOut, Eye, Check, XCircle, Clock } from 'lucide-react'
+import { X, LogOut, Eye, Check, XCircle, Clock, Download, FileText } from 'lucide-react'
 import { useToast } from '@/hooks/use-toast'
+import jsPDF from 'jspdf'
+import autoTable from 'jspdf-autotable'
 
 interface AdminPanelProps {
   open: boolean
@@ -131,6 +133,159 @@ export function AdminPanel({ open, onClose }: AdminPanelProps) {
     setSelectedApp(null)
     setApplications([])
     toast({ title: 'Logged Out', description: 'Aap safely logout ho gaye' })
+  }
+
+  // ===== PDF DOWNLOAD: Single Application =====
+  const downloadSinglePDF = (app: Application) => {
+    const doc = new jsPDF()
+    
+    // Header with green background
+    doc.setFillColor(26, 122, 60)
+    doc.rect(0, 0, 210, 35, 'F')
+    
+    // Logo text
+    doc.setTextColor(255, 255, 255)
+    doc.setFontSize(22)
+    doc.setFont('helvetica', 'bold')
+    doc.text('AKHUWAT SCHEME', 105, 15, { align: 'center' })
+    
+    doc.setFontSize(11)
+    doc.setFont('helvetica', 'normal')
+    doc.setTextColor(244, 208, 63)
+    doc.text('Loan Application Details', 105, 25, { align: 'center' })
+    
+    doc.setTextColor(255, 255, 255)
+    doc.setFontSize(9)
+    doc.text(`Application ID: #${app.id.substring(0, 8)}`, 105, 32, { align: 'center' })
+    
+    // Reset colors
+    doc.setTextColor(0, 0, 0)
+    
+    // Status badge
+    let y = 45
+    doc.setFillColor(
+      app.status === 'Approved' ? 40 : app.status === 'Rejected' ? 220 : 255,
+      app.status === 'Approved' ? 167 : app.status === 'Rejected' ? 53 : 193,
+      app.status === 'Approved' ? 69 : app.status === 'Rejected' ? 69 : 7
+    )
+    doc.roundedRect(75, y, 60, 10, 3, 3, 'F')
+    doc.setTextColor(255, 255, 255)
+    doc.setFontSize(11)
+    doc.setFont('helvetica', 'bold')
+    doc.text(`Status: ${app.status}`, 105, y + 7, { align: 'center' })
+    
+    y += 15
+    
+    // Personal Information Table
+    autoTable(doc, {
+      startY: y,
+      head: [['Personal Information', '']],
+      body: [
+        ['Full Name', app.fullName],
+        ['Father Name', app.fatherName],
+        ['CNIC Number', app.cnicNumber],
+        ['Phone Number', app.phoneNumber],
+        ['Email', app.email || 'N/A'],
+        ['Age Above 18', app.ageAbove18],
+        ['Gender', app.gender],
+        ['Marital Status', app.maritalStatus],
+      ],
+      theme: 'striped',
+      headStyles: { fillColor: [26, 122, 60], fontSize: 11 },
+      bodyStyles: { fontSize: 10 },
+      columnStyles: { 0: { fontStyle: 'bold', cellWidth: 60 } },
+    })
+    
+    // Address & Loan Table
+    autoTable(doc, {
+      startY: (doc as any).lastAutoTable.finalY + 5,
+      head: [['Address & Loan Details', '']],
+      body: [
+        ['City', app.city],
+        ['Province', app.province],
+        ['Loan Type', app.loanType],
+        ['Loan Amount', `Rs. ${app.loanAmount.toLocaleString()}`],
+        ['Loan Purpose', app.loanPurpose],
+        ['Monthly Income', app.monthlyIncome ? `Rs. ${app.monthlyIncome.toLocaleString()}` : 'N/A'],
+        ['Application Date', new Date(app.createdAt).toLocaleString()],
+      ],
+      theme: 'striped',
+      headStyles: { fillColor: [212, 175, 55], fontSize: 11 },
+      bodyStyles: { fontSize: 10 },
+      columnStyles: { 0: { fontStyle: 'bold', cellWidth: 60 } },
+    })
+    
+    // Footer
+    const finalY = (doc as any).lastAutoTable.finalY + 15
+    doc.setFillColor(15, 82, 40)
+    doc.rect(0, 280, 210, 17, 'F')
+    doc.setTextColor(255, 255, 255)
+    doc.setFontSize(9)
+    doc.text('Akhuwat Scheme - Be-sood Qarza Pakistan', 105, 287, { align: 'center' })
+    doc.setFontSize(8)
+    doc.text(`Generated on: ${new Date().toLocaleString()}`, 105, 293, { align: 'center' })
+    
+    // Save the PDF
+    const fileName = `Akhuwat_Application_${app.fullName.replace(/\s/g, '_')}_${app.id.substring(0, 6)}.pdf`
+    doc.save(fileName)
+    toast({ title: '✅ PDF Downloaded', description: `${fileName} saved!` })
+  }
+
+  // ===== PDF DOWNLOAD: All Applications =====
+  const downloadAllPDF = () => {
+    if (filteredApps.length === 0) {
+      toast({ title: '❌ No Data', description: 'PDF banane ke liye koi application nahi hai', variant: 'destructive' })
+      return
+    }
+    
+    const doc = new jsPDF()
+    
+    // Header
+    doc.setFillColor(26, 122, 60)
+    doc.rect(0, 0, 210, 35, 'F')
+    doc.setTextColor(255, 255, 255)
+    doc.setFontSize(22)
+    doc.setFont('helvetica', 'bold')
+    doc.text('AKHUWAT SCHEME', 105, 15, { align: 'center' })
+    doc.setFontSize(11)
+    doc.setFont('helvetica', 'normal')
+    doc.setTextColor(244, 208, 63)
+    doc.text('All Loan Applications Report', 105, 25, { align: 'center' })
+    doc.setTextColor(255, 255, 255)
+    doc.setFontSize(9)
+    doc.text(`Total: ${filteredApps.length} applications | Generated: ${new Date().toLocaleDateString()}`, 105, 32, { align: 'center' })
+    
+    // Table
+    autoTable(doc, {
+      startY: 45,
+      head: [['#', 'Name', 'CNIC', 'Phone', 'Loan Type', 'Amount', 'Status', 'Date']],
+      body: filteredApps.map((app, i) => [
+        i + 1,
+        app.fullName,
+        app.cnicNumber,
+        app.phoneNumber,
+        app.loanType,
+        `Rs. ${app.loanAmount.toLocaleString()}`,
+        app.status,
+        new Date(app.createdAt).toLocaleDateString(),
+      ]),
+      theme: 'grid',
+      headStyles: { fillColor: [26, 122, 60], fontSize: 9 },
+      bodyStyles: { fontSize: 8 },
+      alternateRowStyles: { fillColor: [240, 253, 244] },
+    })
+    
+    // Footer
+    doc.setFillColor(15, 82, 40)
+    doc.rect(0, 280, 210, 17, 'F')
+    doc.setTextColor(255, 255, 255)
+    doc.setFontSize(9)
+    doc.text('Akhuwat Scheme - Be-sood Qarza Pakistan', 105, 287, { align: 'center' })
+    doc.setFontSize(8)
+    doc.text(`Generated on: ${new Date().toLocaleString()}`, 105, 293, { align: 'center' })
+    
+    doc.save(`Akhuwat_All_Applications_${new Date().toISOString().split('T')[0]}.pdf`)
+    toast({ title: '✅ PDF Downloaded', description: `${filteredApps.length} applications ki report download ho gayi!` })
   }
 
   // Filter applications
@@ -371,6 +526,15 @@ export function AdminPanel({ open, onClose }: AdminPanelProps) {
                     </p>
                   )}
                 </div>
+
+                {/* PDF Download Button */}
+                <button
+                  onClick={() => downloadSinglePDF(selectedApp)}
+                  className="w-full py-3 rounded-xl font-semibold text-white text-sm flex items-center justify-center gap-2 transition-transform hover:-translate-y-0.5 btn-shine"
+                  style={{ background: 'linear-gradient(135deg, #d4af37, #b8941f)' }}
+                >
+                  <FileText size={16} /> Download as PDF
+                </button>
               </div>
             </div>
           </div>
@@ -405,10 +569,17 @@ export function AdminPanel({ open, onClose }: AdminPanelProps) {
               />
               <button
                 onClick={fetchApplications}
-                className="px-4 py-2 rounded-lg text-sm font-medium text-white"
+                className="px-4 py-2 rounded-lg text-sm font-medium text-white transition-transform hover:-translate-y-0.5"
                 style={{ background: '#1a7a3c' }}
               >
                 🔄 Refresh
+              </button>
+              <button
+                onClick={downloadAllPDF}
+                className="px-4 py-2 rounded-lg text-sm font-medium text-white flex items-center gap-1.5 transition-transform hover:-translate-y-0.5"
+                style={{ background: 'linear-gradient(135deg, #d4af37, #b8941f)' }}
+              >
+                <Download size={14} /> Download All PDF
               </button>
             </div>
 
@@ -466,13 +637,24 @@ export function AdminPanel({ open, onClose }: AdminPanelProps) {
                           {new Date(app.createdAt).toLocaleDateString()}
                         </td>
                         <td className="p-3">
-                          <button
-                            onClick={() => setSelectedApp(app)}
-                            className="inline-flex items-center gap-1 px-3 py-1.5 rounded text-xs font-medium text-white"
-                            style={{ background: '#1a7a3c' }}
-                          >
-                            <Eye size={12} /> View
-                          </button>
+                          <div className="flex gap-1.5">
+                            <button
+                              onClick={() => setSelectedApp(app)}
+                              className="inline-flex items-center gap-1 px-3 py-1.5 rounded text-xs font-medium text-white transition-transform hover:-translate-y-0.5"
+                              style={{ background: '#1a7a3c' }}
+                              title="View Details"
+                            >
+                              <Eye size={12} /> View
+                            </button>
+                            <button
+                              onClick={() => downloadSinglePDF(app)}
+                              className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded text-xs font-medium text-white transition-transform hover:-translate-y-0.5"
+                              style={{ background: 'linear-gradient(135deg, #d4af37, #b8941f)' }}
+                              title="Download PDF"
+                            >
+                              <Download size={12} />
+                            </button>
+                          </div>
                         </td>
                       </tr>
                     ))}
