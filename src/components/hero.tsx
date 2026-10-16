@@ -73,7 +73,7 @@ export function Hero({ onApplyClick }: HeroProps) {
                 fontFamily: 'var(--font-playfair), serif',
                 fontSize: 'clamp(2.2rem, 5vw, 3.8rem)',
                 lineHeight: 1.15,
-                marginBottom: 20,
+                marginBottom: 12,
                 color: 'white',
                 animation: 'fadeInUp 1s ease 0.2s both',
               }}
@@ -81,6 +81,20 @@ export function Hero({ onApplyClick }: HeroProps) {
               Be-sood Qarza,<br />
               <span style={{ color: '#f4d03f', fontStyle: 'italic' }}>Aapke Karam</span> ka Sathi
             </h1>
+
+            {/* Urdu tagline */}
+            <div
+              style={{
+                fontFamily: 'Jameel Noori Nastaleeq, Noto Nastaliq Urdu, serif',
+                fontSize: '1.6rem',
+                color: '#f4d03f',
+                direction: 'rtl',
+                marginBottom: 18,
+                animation: 'fadeInUp 1s ease 0.3s both',
+              }}
+            >
+              آخوت لون: سود سے پاک
+            </div>
 
             <p
               className="mb-7"
@@ -102,7 +116,7 @@ export function Hero({ onApplyClick }: HeroProps) {
             >
               <button
                 onClick={onApplyClick}
-                className="px-8 py-3.5 rounded-full font-semibold text-white transition-transform hover:-translate-y-1"
+                className="px-8 py-3.5 rounded-full font-semibold text-white transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
                 style={{
                   background: 'linear-gradient(135deg, #d4af37 0%, #b8941f 100%)',
                   boxShadow: '0 6px 20px rgba(212,175,55,0.4)',
@@ -111,11 +125,22 @@ export function Hero({ onApplyClick }: HeroProps) {
               >
                 📝 Apply for Loan
               </button>
+              <button
+                onClick={() => document.getElementById('plans')?.scrollIntoView({ behavior: 'smooth' })}
+                className="px-8 py-3.5 rounded-full font-semibold text-white transition-all duration-300 hover:-translate-y-1 hover:bg-white/25"
+                style={{
+                  background: 'rgba(255,255,255,0.15)',
+                  backdropFilter: 'blur(10px)',
+                  border: '2px solid rgba(255,255,255,0.3)',
+                }}
+              >
+                💰 View Plans
+              </button>
               <a
                 href={whatsappLink}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-8 py-3.5 rounded-full font-semibold text-white transition-transform hover:-translate-y-1 inline-flex items-center gap-2"
+                className="px-8 py-3.5 rounded-full font-semibold text-white transition-all duration-300 hover:-translate-y-1 inline-flex items-center gap-2 hover:bg-white/25"
                 style={{
                   background: 'rgba(255,255,255,0.15)',
                   backdropFilter: 'blur(10px)',

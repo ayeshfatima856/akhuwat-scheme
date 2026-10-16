@@ -4,15 +4,30 @@ import { useState, useEffect } from 'react'
 import { X, Upload } from 'lucide-react'
 import { useToast } from '@/hooks/use-toast'
 
+interface LoanPlan {
+  id: number
+  amount: string
+  amountUrdu: string
+  period: string
+  periodUrdu: string
+  installment: string
+  category: string
+  categoryUrdu: string
+  categoryIcon: string
+  popular?: boolean
+}
+
 interface ApplyFormProps {
   open: boolean
   onClose: () => void
   presetLoanType?: string
+  presetPlan?: LoanPlan | null
 }
 
-export function ApplyForm({ open, onClose, presetLoanType }: ApplyFormProps) {
+export function ApplyForm({ open, onClose, presetLoanType, presetPlan }: ApplyFormProps) {
   const [submitting, setSubmitting] = useState(false)
   const { toast } = useToast()
+  const [selectedPlanLabel, setSelectedPlanLabel] = useState<string>('')
   
   const [formData, setFormData] = useState({
     fullName: '', fatherName: '', cnicNumber: '', phoneNumber: '',
@@ -22,12 +37,28 @@ export function ApplyForm({ open, onClose, presetLoanType }: ApplyFormProps) {
     confirmInfo: false,
   })
 
-  // Preset loan type when provided
+  // Preset loan type or plan when provided
   useEffect(() => {
-    if (presetLoanType) {
+    if (presetPlan) {
+      // Plan se amount aur type preset karo
+      const loanType = presetPlan.category === 'Business' ? 'Business Loan'
+        : presetPlan.category === 'Home Construction' ? 'Home Loan'
+        : 'Personal Loan'
+      const numericAmount = presetPlan.amount.replace(/[^0-9]/g, '')
+      
+      setFormData(prev => ({
+        ...prev,
+        loanType,
+        loanAmount: numericAmount,
+      }))
+      setSelectedPlanLabel(`پلان ${presetPlan.id}: ${presetPlan.amountUrdu} روپے (${presetPlan.period})`)
+    } else if (presetLoanType) {
       setFormData(prev => ({ ...prev, loanType: presetLoanType }))
+      setSelectedPlanLabel('')
+    } else {
+      setSelectedPlanLabel('')
     }
-  }, [presetLoanType])
+  }, [presetLoanType, presetPlan, open])
 
   // Lock body scroll when open
   useEffect(() => {
@@ -154,6 +185,46 @@ export function ApplyForm({ open, onClose, presetLoanType }: ApplyFormProps) {
         {/* Body */}
         <form onSubmit={handleSubmit} className="p-6 md:p-8 space-y-6">
           
+          {/* Selected Plan Banner (agar plan select hua) */}
+          {selectedPlanLabel && (
+            <div
+              className="rounded-xl p-4 flex items-center gap-3"
+              style={{
+                background: 'linear-gradient(135deg, #f0fdf4 0%, #e8f5e9 100%)',
+                border: '1px solid #1a7a3c',
+              }}
+            >
+              <div
+                className="flex items-center justify-center flex-shrink-0"
+                style={{
+                  width: 40, height: 40,
+                  background: 'linear-gradient(135deg, #1a7a3c, #0f5228)',
+                  borderRadius: '50%',
+                  color: 'white',
+                  fontSize: '1.2rem',
+                }}
+              >
+                ✓
+              </div>
+              <div>
+                <div style={{ fontSize: '0.75rem', color: '#5a6c7d', fontWeight: 600 }}>
+                  SELECTED PLAN
+                </div>
+                <div
+                  style={{
+                    fontFamily: 'Jameel Noori Nastaleeq, Noto Nastaliq Urdu, serif',
+                    color: '#0f5228',
+                    fontWeight: 600,
+                    direction: 'rtl',
+                    fontSize: '1.05rem',
+                  }}
+                >
+                  {selectedPlanLabel}
+                </div>
+              </div>
+            </div>
+          )}
+
           {/* Personal Information */}
           <div>
             <h3 className="mb-4 pb-2 border-b-2" style={{ color: '#1a7a3c', fontFamily: 'var(--font-playfair), serif', fontSize: '1.2rem', borderColor: '#e8f5e9' }}>
