@@ -199,15 +199,14 @@ export function AdminPanel({ open, onClose }: AdminPanelProps) {
     })
     
     // Address & Loan Table
-    const addressLoanBody: any[] = []
-    if (app.city && app.city !== 'N/A') {
-      addressLoanBody.push(['City', app.city])
-    }
-    addressLoanBody.push(['Province', app.province])
-    addressLoanBody.push(['Loan Type', app.loanType])
-    addressLoanBody.push(['Loan Amount', `Rs. ${app.loanAmount.toLocaleString()}`])
-    addressLoanBody.push(['Loan Purpose', app.loanPurpose])
-    addressLoanBody.push(['Monthly Income', app.monthlyIncome ? `Rs. ${app.monthlyIncome.toLocaleString()}` : 'N/A'])
+    const addressLoanBody: any[] = [
+      ['City', app.city || 'N/A'],
+      ['Province', app.province],
+      ['Loan Type', app.loanType],
+      ['Loan Amount', `Rs. ${app.loanAmount.toLocaleString()}`],
+      ['Loan Purpose', app.loanPurpose],
+      ['Monthly Income', app.monthlyIncome ? `Rs. ${app.monthlyIncome.toLocaleString()}` : 'N/A'],
+    ]
     if (app.bankAccount) {
       addressLoanBody.push(['Bank Account', app.bankAccount])
     }
@@ -467,10 +466,7 @@ export function AdminPanel({ open, onClose }: AdminPanelProps) {
                     📍 Address & Loan Details
                   </h3>
                   <div className="grid md:grid-cols-2 gap-3 text-sm">
-                    {/* City sirf dikhayo agar actual value hai (N/A nahi) */}
-                    {selectedApp.city && selectedApp.city !== 'N/A' && (
-                      <DetailRow label="City" value={selectedApp.city} />
-                    )}
+                    <DetailRow label="City" value={selectedApp.city || 'N/A'} />
                     <DetailRow label="Province" value={selectedApp.province} />
                     <DetailRow label="Loan Type" value={selectedApp.loanType} />
                     <DetailRow label="Loan Amount" value={`Rs. ${selectedApp.loanAmount.toLocaleString()}`} />

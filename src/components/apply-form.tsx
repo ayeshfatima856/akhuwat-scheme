@@ -32,7 +32,7 @@ export function ApplyForm({ open, onClose, presetLoanType, presetPlan }: ApplyFo
   const [formData, setFormData] = useState({
     fullName: '', fatherName: '', cnicNumber: '', phoneNumber: '',
     email: '', ageAbove18: '', gender: '', maritalStatus: '',
-    province: '',
+    city: '', province: '',
     loanType: '', loanAmount: '', loanPurpose: '', monthlyIncome: '',
     confirmInfo: false,
   })
@@ -136,7 +136,7 @@ export function ApplyForm({ open, onClose, presetLoanType, presetPlan }: ApplyFo
         setFormData({
           fullName: '', fatherName: '', cnicNumber: '', phoneNumber: '',
           email: '', ageAbove18: '', gender: '', maritalStatus: '',
-          province: '',
+          city: '', province: '',
           loanType: '', loanAmount: '', loanPurpose: '', monthlyIncome: '',
           confirmInfo: false,
         })
@@ -284,6 +284,11 @@ export function ApplyForm({ open, onClose, presetLoanType, presetPlan }: ApplyFo
                   <option value="Married">Married (Shadi shuda)</option>
                   <option value="Unmarried">Unmarried (Single)</option>
                 </select>
+              </div>
+              <div>
+                <label className={labelClass}>City <span style={{ color: 'red' }}>*</span></label>
+                <input type="text" name="city" value={formData.city} onChange={handleChange} required
+                  placeholder="e.g., Lahore" className={inputClass} />
               </div>
               <div>
                 <label className={labelClass}>Province <span style={{ color: 'red' }}>*</span></label>
