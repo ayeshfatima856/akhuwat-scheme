@@ -28,7 +28,7 @@ export async function POST(request: NextRequest) {
     // Validate required fields
     const required = ['fullName', 'fatherName', 'cnicNumber', 'phoneNumber', 
                       'ageAbove18', 'gender', 'maritalStatus',
-                      'city', 'province', 'loanType', 'loanAmount', 'loanPurpose']
+                      'province', 'loanType', 'loanAmount', 'loanPurpose']
     
     for (const field of required) {
       if (!body[field] || body[field].toString().trim() === '') {
@@ -53,7 +53,7 @@ export async function POST(request: NextRequest) {
         ageAbove18: body.ageAbove18,
         gender: body.gender,
         maritalStatus: body.maritalStatus,
-        city: body.city.trim(),
+        city: body.city?.trim() || 'N/A',
         province: body.province,
         bankAccount: body.bankAccount?.trim() || null,
         loanType: body.loanType,

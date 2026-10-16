@@ -22,8 +22,10 @@ interface Application {
   gender: string
   maritalStatus: string
   address: string
-  city: string
+  city: string | null
   province: string
+  bankAccount?: string | null
+  trackingId?: string
   loanType: string
   loanAmount: number
   loanPurpose: string
@@ -197,18 +199,27 @@ export function AdminPanel({ open, onClose }: AdminPanelProps) {
     })
     
     // Address & Loan Table
+    const addressLoanBody: any[] = []
+    if (app.city && app.city !== 'N/A') {
+      addressLoanBody.push(['City', app.city])
+    }
+    addressLoanBody.push(['Province', app.province])
+    addressLoanBody.push(['Loan Type', app.loanType])
+    addressLoanBody.push(['Loan Amount', `Rs. ${app.loanAmount.toLocaleString()}`])
+    addressLoanBody.push(['Loan Purpose', app.loanPurpose])
+    addressLoanBody.push(['Monthly Income', app.monthlyIncome ? `Rs. ${app.monthlyIncome.toLocaleString()}` : 'N/A'])
+    if (app.bankAccount) {
+      addressLoanBody.push(['Bank Account', app.bankAccount])
+    }
+    if (app.trackingId) {
+      addressLoanBody.push(['Tracking ID', app.trackingId])
+    }
+    addressLoanBody.push(['Application Date', new Date(app.createdAt).toLocaleString()])
+
     autoTable(doc, {
       startY: (doc as any).lastAutoTable.finalY + 5,
       head: [['Address & Loan Details', '']],
-      body: [
-        ['City', app.city],
-        ['Province', app.province],
-        ['Loan Type', app.loanType],
-        ['Loan Amount', `Rs. ${app.loanAmount.toLocaleString()}`],
-        ['Loan Purpose', app.loanPurpose],
-        ['Monthly Income', app.monthlyIncome ? `Rs. ${app.monthlyIncome.toLocaleString()}` : 'N/A'],
-        ['Application Date', new Date(app.createdAt).toLocaleString()],
-      ],
+      body: addressLoanBody,
       theme: 'striped',
       headStyles: { fillColor: [212, 175, 55], fontSize: 11 },
       bodyStyles: { fontSize: 10 },
@@ -456,13 +467,20 @@ export function AdminPanel({ open, onClose }: AdminPanelProps) {
                     📍 Address & Loan Details
                   </h3>
                   <div className="grid md:grid-cols-2 gap-3 text-sm">
-                    <DetailRow label="Address" value={selectedApp.address} />
-                    <DetailRow label="City" value={selectedApp.city} />
+                    {/* City sirf dikhayo agar actual value hai (N/A nahi) */}
+                    {selectedApp.city && selectedApp.city !== 'N/A' && (
+                      <DetailRow label="City" value={selectedApp.city} />
+                    )}
                     <DetailRow label="Province" value={selectedApp.province} />
                     <DetailRow label="Loan Type" value={selectedApp.loanType} />
                     <DetailRow label="Loan Amount" value={`Rs. ${selectedApp.loanAmount.toLocaleString()}`} />
                     <DetailRow label="Loan Purpose" value={selectedApp.loanPurpose} />
                     <DetailRow label="Monthly Income" value={selectedApp.monthlyIncome ? `Rs. ${selectedApp.monthlyIncome.toLocaleString()}` : 'Not provided'} />
+                    {/* Bank Account sirf dikhayo agar actual value hai */}
+                    {selectedApp.bankAccount && (
+                      <DetailRow label="Bank Account" value={selectedApp.bankAccount} />
+                    )}
+                    <DetailRow label="Tracking ID" value={selectedApp.trackingId} />
                   </div>
                 </div>
               </div>

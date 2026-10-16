@@ -32,7 +32,7 @@ export function ApplyForm({ open, onClose, presetLoanType, presetPlan }: ApplyFo
   const [formData, setFormData] = useState({
     fullName: '', fatherName: '', cnicNumber: '', phoneNumber: '',
     email: '', ageAbove18: '', gender: '', maritalStatus: '',
-    city: '', province: '',
+    province: '',
     loanType: '', loanAmount: '', loanPurpose: '', monthlyIncome: '',
     confirmInfo: false,
   })
@@ -136,7 +136,7 @@ export function ApplyForm({ open, onClose, presetLoanType, presetPlan }: ApplyFo
         setFormData({
           fullName: '', fatherName: '', cnicNumber: '', phoneNumber: '',
           email: '', ageAbove18: '', gender: '', maritalStatus: '',
-          city: '', province: '',
+          province: '',
           loanType: '', loanAmount: '', loanPurpose: '', monthlyIncome: '',
           confirmInfo: false,
         })
@@ -286,11 +286,6 @@ export function ApplyForm({ open, onClose, presetLoanType, presetPlan }: ApplyFo
                 </select>
               </div>
               <div>
-                <label className={labelClass}>City <span style={{ color: 'red' }}>*</span></label>
-                <input type="text" name="city" value={formData.city} onChange={handleChange} required
-                  placeholder="e.g., Lahore" className={inputClass} />
-              </div>
-              <div>
                 <label className={labelClass}>Province <span style={{ color: 'red' }}>*</span></label>
                 <select name="province" value={formData.province} onChange={handleChange} required className={inputClass}>
                   <option value="">Select karein</option>
@@ -357,22 +352,6 @@ export function ApplyForm({ open, onClose, presetLoanType, presetPlan }: ApplyFo
             <h3 className="mb-4 pb-2 border-b-2" style={{ color: '#1a7a3c', fontFamily: 'var(--font-playfair), serif', fontSize: '1.2rem', borderColor: '#e8f5e9' }}>
               📎 Document Uploads
             </h3>
-            
-            {/* Bank Account Number field (required as per Urdu docs) */}
-            <div className="mb-4">
-              <label className={labelClass}>Bank Account Number <span style={{ color: 'red' }}>*</span></label>
-              <input
-                type="text" name="bankAccount" required
-                placeholder="e.g., PK36SCBL0000001123456702"
-                className={inputClass}
-                value={formData.bankAccount || ''}
-                onChange={handleChange}
-              />
-              <p className="text-xs italic mt-1" style={{ color: '#95a5a6' }}>
-                بينک اکاؤنٹ نمبر درج کریں
-              </p>
-            </div>
-
             <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4">
               {[
                 { name: 'cnicFront', label: 'CNIC Front', icon: '🆔', required: true },

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Preloader } from '@/components/preloader'
 import { Navbar } from '@/components/navbar'
 import { Hero } from '@/components/hero'
@@ -23,6 +23,16 @@ export default function Home() {
   const [aboutOpen, setAboutOpen] = useState(false)
   const [presetPlan, setPresetPlan] = useState<any>(null)
   const [presetLoanType, setPresetLoanType] = useState<string | undefined>(undefined)
+
+  // ===== WEBSITE KHULTE HI APPLY FORM AUTO-OPEN HO JAYE =====
+  // Preloader (2.2s) ke thik baad form khul jata hai
+  // User ko pehle hi form samne mil jaye ga
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setApplyOpen(true)
+    }, 2500) // 2.5 second baad (preloader 2.2s + thoda buffer)
+    return () => clearTimeout(timer)
+  }, [])
 
   const handleApplyClick = (loanType?: string) => {
     setPresetPlan(null)
