@@ -1,0 +1,57 @@
+// Prisma schema for Akhuwat Scheme Loan Application System
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// Loan applications submitted by users
+model LoanApplication {
+  id              String   @id @default(cuid())
+  fullName        String
+  fatherName      String
+  cnicNumber      String
+  phoneNumber     String
+  email           String?
+  ageAbove18      String
+  gender          String
+  maritalStatus   String
+  address         String
+  city            String
+  province        String
+  loanType        String
+  loanAmount      Float
+  loanPurpose     String
+  monthlyIncome   Float?
+  photoUrl        String?
+  cnicFrontUrl    String?
+  cnicBackUrl     String?
+  utilityBillUrl  String?
+  status          String   @default("Pending") // Pending | Approved | Rejected
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+// Admin users for the admin panel
+model AdminUser {
+  id        String   @id @default(cuid())
+  username  String   @unique
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+}
+
+// Contact form messages
+model ContactMessage {
+  id        String   @id @default(cuid())
+  name      String
+  email     String?
+  phone     String
+  subject   String?
+  message   String
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+}

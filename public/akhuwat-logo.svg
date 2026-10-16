@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <defs>
+    <linearGradient id="gg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2e8b57"/>
+      <stop offset="50%" stop-color="#1a7a3c"/>
+      <stop offset="100%" stop-color="#0f5228"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f4d03f"/>
+      <stop offset="100%" stop-color="#d4af37"/>
+    </linearGradient>
+    <filter id="sh" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="0" dy="4" stdDeviation="3" flood-color="#0f5228" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+  <circle cx="100" cy="100" r="95" fill="url(#gg)" filter="url(#sh)"/>
+  <circle cx="100" cy="100" r="90" fill="none" stroke="url(#gold)" stroke-width="1.5" stroke-dasharray="3,2" opacity="0.6"/>
+  <g transform="translate(100, 75)">
+    <path d="M 0,-35 L 8,-8 L 35,0 L 8,8 L 0,35 L -8,8 L -35,0 L -8,-8 Z" fill="url(#gold)" opacity="0.95"/>
+    <path d="M 0,-22 L 5,-5 L 22,0 L 5,5 L 0,22 L -5,5 L -22,0 L -5,-5 Z" fill="#ffffff" opacity="0.9"/>
+    <circle cx="0" cy="0" r="6" fill="url(#gg)"/>
+  </g>
+  <g transform="translate(100, 130)">
+    <path d="M -25,0 Q -30,5 -28,12 Q -25,18 -15,18 L -8,18 L -8,8 L -18,8 Q -22,8 -23,5 Z" fill="#ffffff" opacity="0.95"/>
+    <path d="M 25,0 Q 30,5 28,12 Q 25,18 15,18 L 8,18 L 8,8 L 18,8 Q 22,8 23,5 Z" fill="#ffffff" opacity="0.95"/>
+    <circle cx="0" cy="5" r="7" fill="url(#gold)"/>
+    <text x="0" y="9" font-family="Arial, sans-serif" font-size="10" font-weight="bold" text-anchor="middle" fill="#0f5228">Rs</text>
+  </g>
+  <text x="100" y="170" font-family="Georgia, serif" font-size="16" font-weight="bold" text-anchor="middle" fill="#ffffff" letter-spacing="2">AKHUWAT</text>
+  <text x="100" y="185" font-family="Arial, sans-serif" font-size="9" text-anchor="middle" fill="url(#gold)" letter-spacing="4">SCHEME</text>
+</svg>
