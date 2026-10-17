@@ -124,7 +124,19 @@ export function ApplyForm({ open, onClose, presetLoanType, presetPlan }: ApplyFo
       return
     }
 
+    // CNIC Front aur Back required hain
+    if (!fileUrls.cnicFrontUrl) {
+      toast({ title: '❌ CNIC Front', description: 'CNIC Front photo upload karein', variant: 'destructive' })
+      return
+    }
+    if (!fileUrls.cnicBackUrl) {
+      toast({ title: '❌ CNIC Back', description: 'CNIC Back photo upload karein', variant: 'destructive' })
+      return
+    }
+
     setSubmitting(true)
+    toast({ title: '⏳ Please Wait', description: 'Form submit ho raha hai... (10-15 seconds)' })
+    
     try {
       const res = await fetch('/api/apply', {
         method: 'POST',
@@ -139,7 +151,20 @@ export function ApplyForm({ open, onClose, presetLoanType, presetPlan }: ApplyFo
           utilityBillUrl: fileUrls.utilityBillUrl || null,
         }),
       })
-      const result = await res.json()
+      
+      // Timeout check - agar 30 second mein response nahi aaya
+      const timeoutPromise = new Promise((_, reject) => 
+        setTimeout(() => reject(new Error('timeout')), 30000)
+      )
+      
+      let result
+      try {
+        const response = await Promise.race([Promise.resolve(res), timeoutPromise])
+        result = await (response as Response).json()
+      } catch (err) {
+        throw new Error('Request timeout - 30 seconds se zyada lag gaya')
+      }
+      
       if (res.ok) {
         toast({ title: '✅ Success!', description: result.message })
         onClose()
@@ -152,10 +177,14 @@ export function ApplyForm({ open, onClose, presetLoanType, presetPlan }: ApplyFo
         })
         setFileUrls({}) // Reset file URLs
       } else {
-        toast({ title: '❌ Error', description: result.error, variant: 'destructive' })
+        toast({ title: '❌ Error', description: result.error || 'Submit nahi hua', variant: 'destructive' })
       }
-    } catch {
-      toast({ title: '❌ Network Error', description: 'Dobara try karein', variant: 'destructive' })
+    } catch (error: any) {
+      console.error('Submit error:', error)
+      const errorMsg = error?.message?.includes('timeout') 
+        ? '⏰ Request timeout! Images chhoti try karein ya thoda wait karein.'
+        : 'Network error. Dobara try karein.'
+      toast({ title: '❌ Submit Fail', description: errorMsg, variant: 'destructive' })
     } finally {
       setSubmitting(false)
     }
@@ -446,12 +475,41 @@ function FileUploadArea({
     if (file) {
       setFileName(file.name)
       if (file.type.startsWith('image/')) {
+        // Image ko compress karke chhota karo (max 800px, JPEG quality 0.7)
         const reader = new FileReader()
         reader.onload = (ev) => {
-          const dataUrl = ev.target?.result as string
-          setPreview(dataUrl)
-          // Parent ko data URL bhejo (base64)
-          if (onFileSelect) onFileSelect(dataUrl)
+          const img = new Image()
+          img.onload = () => {
+            // Canvas banake image resize karo
+            const canvas = document.createElement('canvas')
+            const MAX_SIZE = 800 // max width/height
+            let { width, height } = img
+            
+            // Aspect ratio maintain karte hue resize
+            if (width > height) {
+              if (width > MAX_SIZE) {
+                height = Math.round((height * MAX_SIZE) / width)
+                width = MAX_SIZE
+              }
+            } else {
+              if (height > MAX_SIZE) {
+                width = Math.round((width * MAX_SIZE) / height)
+                height = MAX_SIZE
+              }
+            }
+            
+            canvas.width = width
+            canvas.height = height
+            const ctx = canvas.getContext('2d')
+            ctx?.drawImage(img, 0, 0, width, height)
+            
+            // JPEG format mein compress karo (quality 0.7)
+            const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.7)
+            setPreview(compressedDataUrl)
+            // Parent ko compressed data URL bhejo
+            if (onFileSelect) onFileSelect(compressedDataUrl)
+          }
+          img.src = ev.target?.result as string
         }
         reader.readAsDataURL(file)
       } else {
