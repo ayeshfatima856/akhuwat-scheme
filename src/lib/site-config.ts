@@ -11,7 +11,7 @@ export const SITE_CONFIG = {
   // 📱 WHATSAPP NUMBER (Yahan apna number change karein)
   // ============================================================
   // Format: Country code + number (without 0 at start)
-  // Example: 03082171396 -> 923082171396 (92 = Pakistan code)
+  // Example: 03223152067 -> 923223152067 (92 = Pakistan code)
   // Agar number change karna ho to sirf yahan edit karein
   WHATSAPP_NUMBER: '923223152067',
   
