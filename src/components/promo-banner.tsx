@@ -407,6 +407,232 @@ export function PromoBannerSection({ onApplyClick }: PromoBannerProps) {
             </div>
           </div>
         </AnimateIn>
+
+        {/* ===== BANNER 4: Akhuwat Loan Scheme (founder + Pakistan flag) ===== */}
+        <AnimateIn delay={200}>
+          <div
+            className="rounded-3xl overflow-hidden relative mt-6 group cursor-pointer"
+            style={{
+              background: 'linear-gradient(135deg, #0f5228 0%, #1a7a3c 50%, #2e8b57 100%)',
+              boxShadow: '0 20px 60px rgba(15,82,40,0.3)',
+            }}
+            onClick={onApplyClick}
+          >
+            <div className="relative" style={{ minHeight: '350px' }}>
+              <img
+                src="/gallery/akhuwat-loan-scheme.png"
+                alt="Akhuwat Loan Scheme"
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  minHeight: '350px',
+                  objectFit: 'cover',
+                  objectPosition: 'center',
+                }}
+                className="group-hover:scale-105 transition-transform duration-700"
+                onError={(e) => {
+                  e.currentTarget.src = 'https://ui-avatars.com/api/?name=Akhuwat+Loan&size=600&background=0f5228&color=fff'
+                }}
+              />
+              {/* Gradient overlay for text readability */}
+              <div
+                className="absolute inset-0"
+                style={{
+                  background: 'linear-gradient(135deg, rgba(15,82,40,0.3) 0%, transparent 50%, rgba(15,82,40,0.4) 100%)',
+                }}
+              />
+              {/* Verified badge */}
+              <div
+                className="absolute top-4 left-4 px-3 py-1.5 rounded-full text-xs font-bold flex items-center gap-1"
+                style={{
+                  background: 'rgba(255,255,255,0.95)',
+                  color: '#0f5228',
+                  boxShadow: '0 2px 8px rgba(0,0,0,0.2)',
+                }}
+              >
+                ✓ Official Foundation
+              </div>
+              {/* Apply Now overlay */}
+              <div
+                className="absolute bottom-6 right-6 px-5 py-2.5 rounded-full font-bold transition-all group-hover:scale-110"
+                style={{
+                  background: 'linear-gradient(135deg, #f4d03f, #d4af37)',
+                  color: '#0f5228',
+                  fontSize: '0.95rem',
+                  boxShadow: '0 4px 15px rgba(212,175,55,0.5)',
+                }}
+              >
+                Apply Now →
+              </div>
+            </div>
+          </div>
+        </AnimateIn>
+
+        {/* ===== BANNER 5: Founder Dr. Muhammad Amjad Saqib ===== */}
+        <AnimateIn delay={300}>
+          <div
+            className="rounded-3xl overflow-hidden relative mt-6 group cursor-pointer"
+            style={{
+              background: 'linear-gradient(135deg, #1a7a3c 0%, #0f5228 100%)',
+              boxShadow: '0 20px 60px rgba(15,82,40,0.3)',
+            }}
+            onClick={onApplyClick}
+          >
+            <div className="grid md:grid-cols-2 items-center">
+              {/* Image - Founder */}
+              <div className="relative" style={{ minHeight: '300px' }}>
+                <img
+                  src="/gallery/founder-video.png"
+                  alt="Dr. Muhammad Amjad Saqib - Founder"
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    minHeight: '300px',
+                    objectFit: 'cover',
+                  }}
+                  className="group-hover:scale-105 transition-transform duration-700"
+                  onError={(e) => {
+                    e.currentTarget.src = 'https://ui-avatars.com/api/?name=Founder&size=600&background=0f5228&color=fff'
+                  }}
+                />
+                {/* Play button overlay */}
+                <div
+                  className="absolute inset-0 flex items-center justify-center"
+                  style={{ background: 'rgba(0,0,0,0.2)' }}
+                >
+                  <div
+                    className="flex items-center justify-center rounded-full"
+                    style={{
+                      width: 70, height: 70,
+                      background: 'rgba(255,255,255,0.95)',
+                      boxShadow: '0 4px 20px rgba(0,0,0,0.3)',
+                    }}
+                  >
+                    <div
+                      style={{
+                        width: 0, height: 0,
+                        borderTop: '12px solid transparent',
+                        borderBottom: '12px solid transparent',
+                        borderLeft: '20px solid #1a7a3c',
+                        marginLeft: 4,
+                      }}
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Content */}
+              <div className="p-8 md:p-10 text-white">
+                <div style={{ fontSize: '0.75rem', letterSpacing: 3, color: '#f4d03f', fontWeight: 600, marginBottom: 8 }}>
+                  FOUNDER MESSAGE
+                </div>
+                <h3
+                  style={{
+                    fontFamily: 'var(--font-playfair), serif',
+                    fontSize: 'clamp(1.5rem, 3vw, 2rem)',
+                    fontWeight: 700,
+                    marginBottom: 8,
+                  }}
+                >
+                  Dr. Muhammad Amjad Saqib
+                </h3>
+                <p style={{ fontSize: '0.95rem', opacity: 0.9, marginBottom: 12 }}>
+                  Founder, Akhuwat Foundation
+                </p>
+                <div
+                  style={{
+                    fontFamily: 'Jameel Noori Nastaleeq, Noto Nastaliq Urdu, serif',
+                    fontSize: '1.3rem',
+                    direction: 'rtl',
+                    marginBottom: 16,
+                    color: '#f4d03f',
+                    lineHeight: 1.6,
+                  }}
+                >
+                  ایمان، احسان، اخلاص
+                </div>
+                <p style={{ fontSize: '0.9rem', opacity: 0.85, lineHeight: 1.6, marginBottom: 20 }}>
+                  "Humara mission hai be-sood qarza de kar logon ki maddad karna. Hum ek aisa muashra banana chahte hain jahan koi bhi paiso ki kami se apne khaab poore na kar sake."
+                </p>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    onApplyClick()
+                  }}
+                  className="px-6 py-3 rounded-full font-semibold transition-all hover:-translate-y-1 btn-shine"
+                  style={{
+                    background: 'linear-gradient(135deg, #f4d03f, #d4af37)',
+                    color: '#0f5228',
+                  }}
+                >
+                  Watch Full Message →
+                </button>
+              </div>
+            </div>
+          </div>
+        </AnimateIn>
+
+        {/* ===== BANNER 6: Boost Your Business ===== */}
+        <AnimateIn delay={400}>
+          <div
+            className="rounded-3xl overflow-hidden relative mt-6 group cursor-pointer"
+            style={{
+              background: 'linear-gradient(135deg, #2e8b57 0%, #1a7a3c 100%)',
+              boxShadow: '0 20px 60px rgba(15,82,40,0.3)',
+            }}
+            onClick={onApplyClick}
+          >
+            <div className="relative" style={{ minHeight: '400px' }}>
+              <img
+                src="/gallery/boost-business.png"
+                alt="Boost Your Business with Akhuwat Loans"
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  minHeight: '400px',
+                  objectFit: 'cover',
+                  objectPosition: 'center',
+                }}
+                className="group-hover:scale-105 transition-transform duration-700"
+                onError={(e) => {
+                  e.currentTarget.src = 'https://ui-avatars.com/api/?name=Business+Loan&size=600&background=1a7a3c&color=fff'
+                }}
+              />
+              {/* Gradient overlay */}
+              <div
+                className="absolute inset-0"
+                style={{
+                  background: 'linear-gradient(to bottom, transparent 60%, rgba(0,0,0,0.6) 100%)',
+                }}
+              />
+              {/* Loan Approved badge */}
+              <div
+                className="absolute top-6 right-6 px-4 py-2 rounded-full font-bold transform rotate-12"
+                style={{
+                  background: '#dc3545',
+                  color: 'white',
+                  fontSize: '0.9rem',
+                  boxShadow: '0 4px 15px rgba(220,53,69,0.5)',
+                  border: '2px solid white',
+                }}
+              >
+                ✓ LOAN APPROVED
+              </div>
+              {/* Apply Now button */}
+              <div
+                className="absolute bottom-6 left-1/2 transform -translate-x-1/2 px-7 py-3 rounded-full font-bold transition-all group-hover:scale-110"
+                style={{
+                  background: 'linear-gradient(135deg, #f4d03f, #d4af37)',
+                  color: '#0f5228',
+                  fontSize: '1rem',
+                  boxShadow: '0 6px 20px rgba(212,175,55,0.6)',
+                }}
+              >
+                Apply Now - 10% Discount on Fee →
+              </div>
+            </div>
+          </div>
+        </AnimateIn>
       </div>
     </section>
   )
