@@ -1,0 +1,18 @@
+# Files to ignore during Netlify build
+node_modules
+.next/cache
+.git
+.gitignore
+*.log
+dev.log
+server.log
+upload/
+scripts/
+tests/
+*.md
+README.md
+DEPLOYMENT.md
+QUICK-DEPLOY.md
+.env.local
+.env.*.local
+db/

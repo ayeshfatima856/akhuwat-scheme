@@ -4,6 +4,12 @@
 
 [build.environment]
   NODE_VERSION = "20"
+  NPM_FLAGS = "--legacy-peer-deps"
 
+# Next.js plugin handles everything automatically
 [[plugins]]
   package = "@netlify/plugin-nextjs"
+
+# Ignore unnecessary files
+[functions]
+  node_bundler = "esbuild"
