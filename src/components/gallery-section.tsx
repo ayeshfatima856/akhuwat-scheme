@@ -92,37 +92,37 @@ const customerReviews: GalleryItem[] = [
   },
 ]
 
-// 3 User-provided Akhuwat images (full-width compensated below reviews)
+// 3 User-provided Akhuwat promotional images (high-quality, full-width)
 const userImages: UserImage[] = [
   {
     id: 1,
-    image: '/gallery/akhuwat-event.png',
-    title: 'Akhuwat Annual Gathering',
-    subtitle: 'Annual Akhuwat Event',
-    description: 'Akhuwat Foundation ka saalana event jahan hazaron log shamil hote hain. Bina sood qarza ki barkat aur logon ki maddad ka jashn manaya jata hai. Akhuwat ki team is event mein logo ko be-sood qarza distribute karti hai.',
+    image: '/gallery/akhuwat-loan-scheme.png',
+    title: 'Akhuwat Loan Scheme',
+    subtitle: 'Official Foundation Banner',
+    description: 'Akhuwat Foundation ka official loan scheme banner. Be-sood qarza faraham kar ke logon ki maddad. Hazaron logon ne apne khaab poore kiye.',
     category: 'event',
     icon: Users,
-    impact: '5,000+ Attendees',
+    impact: '50,000+ Loans',
   },
   {
     id: 2,
-    image: '/gallery/education-clothes.png',
-    title: 'Education & Relief Services',
-    subtitle: 'Akhuwat Services',
-    description: 'Akhuwat Education Services (AES) ke zariye 12,000 se zyada students ko free education di ja rahi hai. Akhuwat Clothes Bank (ACB) ke zariye 50,000 se zyada ghareeb families ko kapde aur rashan diya jaata hai.',
+    image: '/gallery/founder-video.png',
+    title: 'Founder Message',
+    subtitle: 'Dr. Muhammad Amjad Saqib',
+    description: 'Akhuwat Foundation ke founder Dr. Muhammad Amjad Saqib ka message. "Humara mission hai be-sood qarza de kar logon ki maddad karna."',
     category: 'community',
     icon: GraduationCap,
-    impact: '12,000+ Students',
+    impact: 'Vision & Mission',
   },
   {
     id: 3,
-    image: '/gallery/blog-stories.png',
-    title: 'Real Success Stories',
-    subtitle: 'Real People, Real Impact',
-    description: 'Azra Parveen ki kahani - 20,000 rupay se shuru kar ke business owner bani. Akhuwat ke interest-free loans se hazaron logon ki zindagi badal gayi. Yeh waqai ki kahaniyan hain.',
+    image: '/gallery/boost-business.png',
+    title: 'Boost Your Business',
+    subtitle: 'Business Loan Approved',
+    description: 'Apna karobar shuru karein ya expand karein. Akhuwat ke be-sood business loans se hazaron logon ne apna karobar set up kiya.',
     category: 'community',
     icon: HeartHandshake,
-    impact: 'Real Stories',
+    impact: '10% Fee Discount',
   },
 ]
 
@@ -326,23 +326,22 @@ export function GallerySection() {
               <div
                 className="relative overflow-hidden cursor-pointer group"
                 style={{
-                  height: '450px',
+                  height: '500px',
                   borderRight: i < 2 ? '1px solid rgba(255,255,255,0.2)' : 'none',
                   background: '#0f5228',
                 }}
                 onClick={() => setSelectedImage(img)}
               >
-                {/* Image - contain for full visibility, no cropping */}
+                {/* Image - cover for full display, high quality */}
                 <img
                   src={img.image}
                   alt={img.title}
                   style={{
                     width: '100%',
                     height: '100%',
-                    objectFit: 'contain',
+                    objectFit: 'cover',
+                    objectPosition: 'center',
                     transition: 'transform 0.6s ease',
-                    imageRendering: 'high-quality',
-                    WebkitFontSmoothing: 'antialiased',
                   }}
                   className="group-hover:scale-105"
                   onError={(e) => {
