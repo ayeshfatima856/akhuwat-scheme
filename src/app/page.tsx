@@ -13,6 +13,7 @@ import { ContactSection, Footer } from '@/components/contact-footer'
 import { UrduWelcomeSection, LoanPlansSection } from '@/components/loan-plans'
 import { NotesSection } from '@/components/notes-section'
 import { GallerySection } from '@/components/gallery-section'
+import { PromoBannerSection } from '@/components/promo-banner'
 import { ApplyForm } from '@/components/apply-form'
 import { AdminPanel } from '@/components/admin-panel'
 import { AboutModal } from '@/components/about-modal'
@@ -63,6 +64,7 @@ export default function Home() {
       <UrduWelcomeSection />
       <LoanPlansSection onApplyClick={handlePlanApplyClick} />
       <GallerySection />
+      <PromoBannerSection onApplyClick={() => handleApplyClick()} />
       <NotesSection />
       <ProcessSection />
       <ContactSection />
