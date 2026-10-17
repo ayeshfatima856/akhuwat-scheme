@@ -13,7 +13,7 @@ export const SITE_CONFIG = {
   // Format: Country code + number (without 0 at start)
   // Example: 03082171396 -> 923082171396 (92 = Pakistan code)
   // Agar number change karna ho to sirf yahan edit karein
-  WHATSAPP_NUMBER: '+92 310 9999464',
+  WHATSAPP_NUMBER: '92 310 9999464',
   
   // Display format (jo website par dikhana hai)
   WHATSAPP_DISPLAY: '+92 310 9999464',
