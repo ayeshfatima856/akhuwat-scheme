@@ -2,13 +2,13 @@
 
 import { useState } from 'react'
 import { AnimateIn } from './animations'
-import { CheckCircle2, Quote, Star, X, HandHeart, FileCheck, Award } from 'lucide-react'
+import { CheckCircle2, Quote, Star, X, Users, GraduationCap, HeartHandshake, Building2 } from 'lucide-react'
 
 // ============================================================
 // GALLERY SECTION - Trust Building with Real Success Stories
 // ============================================================
-// Pakistani customers ki photos - real-looking success stories
-// Loan approval moments, money handover, happy customers
+// 4 Pakistani customer reviews + Community/Event photos
+// (Akhuwat events, education services, clothes bank, etc.)
 // ============================================================
 
 interface GalleryItem {
@@ -24,12 +24,15 @@ interface GalleryItem {
   story: string
   date: string
   verified: boolean
-  category: 'customer' | 'approval' | 'handover'
+  category: 'customer' | 'event' | 'community'
+  icon?: any
+  title?: string
+  subtitle?: string
 }
 
-// Pakistani-style success stories with South Asian stock photos
-// 6 verified Pakistani customers
+// 4 verified Pakistani customer reviews + community/event photos
 const galleryItems: GalleryItem[] = [
+  // ===== 4 CUSTOMER REVIEWS (Pakistani) =====
   {
     id: 1,
     name: 'Ahmed Khan',
@@ -90,35 +93,79 @@ const galleryItems: GalleryItem[] = [
     verified: true,
     category: 'customer',
   },
+
+  // ===== COMMUNITY & EVENT PHOTOS (like your images) =====
   {
     id: 5,
-    name: 'Bilal Ahmed',
-    fatherName: 'Saleem Ahmed',
-    city: 'Faisalabad',
+    name: 'Akhuwat Annual Gathering',
+    fatherName: 'Lahore Event',
+    city: 'Lahore',
     province: 'Punjab',
-    loanType: 'Business Loan',
-    loanAmount: 'Rs. 20,00,000',
-    image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=400&auto=format&fit=crop',
+    loanType: 'Community Event',
+    loanAmount: '5,000+ Attendees',
+    image: 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=400&h=400&auto=format&fit=crop',
     rating: 5,
-    story: '20 lakh ka business loan mila jis se main apna textile factory expand kar saka. Ab 50 log mere yahan kaam karte hain. Akhuwat ka ehsaan hai.',
-    date: '18 November 2023',
+    story: 'Akhuwat Foundation ka saalana event jahan hazaron log shamil hote hain. Bina sood qarza ki barkat aur logon ki maddad ka jashn manaya jata hai.',
+    date: 'Annual Event 2024',
     verified: true,
-    category: 'customer',
+    category: 'event',
+    icon: Users,
+    title: 'Community Gathering',
+    subtitle: 'Annual Akhuwat Event',
   },
   {
     id: 6,
-    name: 'Ayesha Malik',
-    fatherName: 'Tariq Malik',
-    city: 'Rawalpindi',
-    province: 'Punjab',
-    loanType: 'Personal Loan',
-    loanAmount: 'Rs. 1,00,000',
-    image: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400&h=400&auto=format&fit=crop',
+    name: 'Akhuwat Education Services',
+    fatherName: 'Education Program',
+    city: 'Karachi',
+    province: 'Sindh',
+    loanType: 'Education Program',
+    loanAmount: '12,000+ Students',
+    image: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=400&h=400&auto=format&fit=crop',
     rating: 5,
-    story: 'Emergency medical loan ke liye foran paise mil gaye - sirf 2 ghante mein! Akhuwat waqai be-sood aur fast service deta hai.',
-    date: '2 October 2023',
+    story: 'Akhuwat Education Services (AES) ke zariye 12,000 se zyada students ko free education di ja rahi hai. Yeh waqai ek noble mission hai.',
+    date: 'Education Drive 2024',
     verified: true,
-    category: 'customer',
+    category: 'community',
+    icon: GraduationCap,
+    title: 'Education Services',
+    subtitle: 'Free Education for All',
+  },
+  {
+    id: 7,
+    name: 'Akhuwat Clothes Bank',
+    fatherName: 'Relief Program',
+    city: 'Multan',
+    province: 'Punjab',
+    loanType: 'Relief Program',
+    loanAmount: '50,000+ Families',
+    image: 'https://images.unsplash.com/photo-1593113598332-cd288d649433?w=400&h=400&auto=format&fit=crop',
+    rating: 5,
+    story: 'Akhuwat Clothes Bank (ACB) ke zariye 50,000 se zyada ghareeb families ko kapde aur rashaam diya jaata hai. Hamari team flood aur earthquake victims ki maddad ke liye hamesha ready hai.',
+    date: 'Relief Drive 2024',
+    verified: true,
+    category: 'community',
+    icon: HeartHandshake,
+    title: 'Clothes Bank',
+    subtitle: 'Helping Needy Families',
+  },
+  {
+    id: 8,
+    name: 'Women Empowerment Program',
+    fatherName: 'Women Initiative',
+    city: 'Faisalabad',
+    province: 'Punjab',
+    loanType: 'Women Loan',
+    loanAmount: '8,000+ Women',
+    image: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3a?w=400&h=400&auto=format&fit=crop',
+    rating: 5,
+    story: 'Women Empowerment Program ke zariye 8,000 se zyada auraton ko be-sood qarza diya jaata hai. Hum auraton ko khud kamar pane mein maddad karte hain.',
+    date: 'Women Day 2024',
+    verified: true,
+    category: 'community',
+    icon: Building2,
+    title: 'Women Empowerment',
+    subtitle: 'Empowering Women',
   },
 ]
 
@@ -126,11 +173,15 @@ export function GallerySection() {
   const [selectedItem, setSelectedItem] = useState<GalleryItem | null>(null)
   const [filter, setFilter] = useState<string>('All')
 
-  const loanTypes = ['All', 'Business Loan', 'Personal Loan', 'Agriculture Loan', 'Education Loan', 'Home Loan']
+  const filterOptions = ['All', 'Customer Reviews', 'Events', 'Community']
   
   const filteredItems = filter === 'All' 
     ? galleryItems 
-    : galleryItems.filter(item => item.loanType === filter)
+    : filter === 'Customer Reviews' 
+      ? galleryItems.filter(item => item.category === 'customer')
+      : filter === 'Events'
+        ? galleryItems.filter(item => item.category === 'event')
+        : galleryItems.filter(item => item.category === 'community')
 
   return (
     <section id="gallery" className="py-20 md:py-28" style={{ background: '#fdfcf8' }}>
@@ -140,7 +191,7 @@ export function GallerySection() {
         <AnimateIn>
           <div className="text-center mb-14">
             <span className="text-xs font-semibold tracking-widest uppercase" style={{ color: '#1a7a3c' }}>
-              SUCCESS STORIES
+              SUCCESS STORIES & COMMUNITY
             </span>
             <h2
               className="mt-3 mb-4"
@@ -150,7 +201,7 @@ export function GallerySection() {
                 color: '#2c3e50',
               }}
             >
-              Hamare Khush Gumnaam Customers
+              Hamari Kahani, Hamare Log
             </h2>
             <p
               style={{
@@ -207,7 +258,7 @@ export function GallerySection() {
         {/* Filter Buttons */}
         <AnimateIn delay={400}>
           <div className="flex flex-wrap justify-center gap-2 mb-10">
-            {loanTypes.map((type) => (
+            {filterOptions.map((type) => (
               <button
                 key={type}
                 onClick={() => setFilter(type)}
@@ -245,7 +296,6 @@ export function GallerySection() {
                     style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                     className="transition-transform duration-500 hover:scale-110"
                     onError={(e) => {
-                      // Fallback image if Unsplash fails
                       e.currentTarget.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(item.name)}&size=400&background=1a7a3c&color=fff`
                     }}
                   />
@@ -262,14 +312,12 @@ export function GallerySection() {
                   <div
                     className="absolute top-2 left-2 px-2 py-1 rounded-full text-xs font-bold flex items-center gap-1"
                     style={{ 
-                      background: item.category === 'handover' ? 'rgba(212,175,55,0.95)' : item.category === 'approval' ? 'rgba(40,167,69,0.9)' : 'rgba(0,0,0,0.6)',
+                      background: item.category === 'event' ? 'rgba(212,175,55,0.95)' : item.category === 'community' ? 'rgba(46,139,87,0.9)' : 'rgba(0,0,0,0.6)',
                       color: 'white'
                     }}
                   >
-                    {item.category === 'handover' && <HandHeart size={12} />}
-                    {item.category === 'approval' && <FileCheck size={12} />}
-                    {item.category === 'customer' && <Award size={12} />}
-                    {item.category === 'handover' ? 'Handover' : item.category === 'approval' ? 'Approved' : 'Customer'}
+                    {item.icon ? <item.icon size={12} /> : <CheckCircle2 size={12} />}
+                    {item.category === 'event' ? 'Event' : item.category === 'community' ? 'Community' : 'Customer'}
                   </div>
                   {/* Loan amount overlay */}
                   <div
@@ -279,12 +327,25 @@ export function GallerySection() {
                       color: 'white',
                     }}
                   >
-                    <div style={{ fontSize: '1.1rem', fontWeight: 700, color: '#f4d03f' }}>
-                      {item.loanAmount}
-                    </div>
-                    <div style={{ fontSize: '0.75rem', opacity: 0.9 }}>
-                      {item.loanType}
-                    </div>
+                    {item.category === 'customer' ? (
+                      <>
+                        <div style={{ fontSize: '1.1rem', fontWeight: 700, color: '#f4d03f' }}>
+                          {item.loanAmount}
+                        </div>
+                        <div style={{ fontSize: '0.75rem', opacity: 0.9 }}>
+                          {item.loanType}
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        <div style={{ fontSize: '1rem', fontWeight: 700, color: '#f4d03f' }}>
+                          {item.title}
+                        </div>
+                        <div style={{ fontSize: '0.75rem', opacity: 0.9 }}>
+                          {item.subtitle}
+                        </div>
+                      </>
+                    )}
                   </div>
                 </div>
 
@@ -294,16 +355,24 @@ export function GallerySection() {
                     <h5 style={{ margin: 0, color: '#2c3e50', fontSize: '1rem', fontWeight: 600 }}>
                       {item.name}
                     </h5>
-                    <div style={{ color: '#d4af37', fontSize: '0.85rem' }}>
-                      {'★'.repeat(item.rating)}
-                    </div>
+                    {item.category === 'customer' && (
+                      <div style={{ color: '#d4af37', fontSize: '0.85rem' }}>
+                        {'★'.repeat(item.rating)}
+                      </div>
+                    )}
                   </div>
                   <p style={{ fontSize: '0.8rem', color: '#95a5a6', margin: 0 }}>
                     📍 {item.city}, {item.province}
                   </p>
-                  <p style={{ fontSize: '0.75rem', color: '#95a5a6', marginTop: 4 }}>
-                    s/o {item.fatherName}
-                  </p>
+                  {item.category === 'customer' ? (
+                    <p style={{ fontSize: '0.75rem', color: '#95a5a6', marginTop: 4 }}>
+                      s/o {item.fatherName}
+                    </p>
+                  ) : (
+                    <p style={{ fontSize: '0.75rem', color: '#1a7a3c', marginTop: 4, fontWeight: 600 }}>
+                      {item.loanAmount} helped
+                    </p>
+                  )}
                 </div>
               </div>
             </AnimateIn>
@@ -391,29 +460,36 @@ export function GallerySection() {
                       className="px-2 py-1 rounded-full text-xs font-bold flex items-center gap-1"
                       style={{ background: '#1a7a3c' }}
                     >
-                      <CheckCircle2 size={12} /> Verified Customer
+                      <CheckCircle2 size={12} /> {selectedItem.category === 'customer' ? 'Verified Customer' : 'Verified Program'}
                     </span>
                   )}
                 </div>
                 <p style={{ margin: '4px 0 0 0', opacity: 0.9 }}>
-                  s/o {selectedItem.fatherName} | 📍 {selectedItem.city}, {selectedItem.province}
+                  {selectedItem.category === 'customer' 
+                    ? `s/o ${selectedItem.fatherName} | 📍 ${selectedItem.city}, ${selectedItem.province}`
+                    : `📍 ${selectedItem.city}, ${selectedItem.province} | ${selectedItem.fatherName}`
+                  }
                 </p>
               </div>
             </div>
 
             {/* Body */}
             <div className="p-6">
-              {/* Loan details */}
+              {/* Details */}
               <div
                 className="grid grid-cols-3 gap-3 mb-5 p-4 rounded-xl"
                 style={{ background: '#f0fdf4' }}
               >
                 <div className="text-center">
-                  <div style={{ fontSize: '0.75rem', color: '#95a5a6', fontWeight: 600 }}>LOAN TYPE</div>
+                  <div style={{ fontSize: '0.75rem', color: '#95a5a6', fontWeight: 600 }}>
+                    {selectedItem.category === 'customer' ? 'LOAN TYPE' : 'PROGRAM'}
+                  </div>
                   <div style={{ fontSize: '0.9rem', color: '#0f5228', fontWeight: 700 }}>{selectedItem.loanType}</div>
                 </div>
                 <div className="text-center">
-                  <div style={{ fontSize: '0.75rem', color: '#95a5a6', fontWeight: 600 }}>AMOUNT</div>
+                  <div style={{ fontSize: '0.75rem', color: '#95a5a6', fontWeight: 600 }}>
+                    {selectedItem.category === 'customer' ? 'AMOUNT' : 'IMPACT'}
+                  </div>
                   <div style={{ fontSize: '0.9rem', color: '#0f5228', fontWeight: 700 }}>{selectedItem.loanAmount}</div>
                 </div>
                 <div className="text-center">
@@ -422,15 +498,17 @@ export function GallerySection() {
                 </div>
               </div>
 
-              {/* Rating */}
-              <div className="flex items-center gap-2 mb-4">
-                <span style={{ color: '#d4af37', fontSize: '1.2rem' }}>
-                  {'★'.repeat(selectedItem.rating)}
-                </span>
-                <span style={{ color: '#95a5a6', fontSize: '0.85rem' }}>
-                  {selectedItem.rating}.0 out of 5
-                </span>
-              </div>
+              {/* Rating (only for customer) */}
+              {selectedItem.category === 'customer' && (
+                <div className="flex items-center gap-2 mb-4">
+                  <span style={{ color: '#d4af37', fontSize: '1.2rem' }}>
+                    {'★'.repeat(selectedItem.rating)}
+                  </span>
+                  <span style={{ color: '#95a5a6', fontSize: '0.85rem' }}>
+                    {selectedItem.rating}.0 out of 5
+                  </span>
+                </div>
+              )}
 
               {/* Story */}
               <div className="flex gap-3 mb-4">
@@ -446,13 +524,13 @@ export function GallerySection() {
                   <CheckCircle2 size={12} /> 0% Interest
                 </span>
                 <span className="px-3 py-1.5 rounded-full text-xs font-medium flex items-center gap-1" style={{ background: '#e8f5e9', color: '#1a7a3c' }}>
-                  <CheckCircle2 size={12} /> Verified Application
+                  <CheckCircle2 size={12} /> Verified
                 </span>
                 <span className="px-3 py-1.5 rounded-full text-xs font-medium flex items-center gap-1" style={{ background: '#e8f5e9', color: '#1a7a3c' }}>
-                  <CheckCircle2 size={12} /> Loan Disbursed
+                  <CheckCircle2 size={12} /> Trusted
                 </span>
                 <span className="px-3 py-1.5 rounded-full text-xs font-medium flex items-center gap-1" style={{ background: '#e8f5e9', color: '#1a7a3c' }}>
-                  <CheckCircle2 size={12} /> Happy Customer
+                  <CheckCircle2 size={12} /> Happy
                 </span>
               </div>
             </div>
