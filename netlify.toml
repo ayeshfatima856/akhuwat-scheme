@@ -1,5 +1,5 @@
 [build]
-  command = "prisma generate && prisma db push --accept-data-loss && next build"
+  command = "prisma generate && prisma db push --accept-data-loss && next build && rm -rf .next/node_modules"
   publish = ".next"
 
 [build.environment]
