@@ -64,6 +64,7 @@ export function Navbar({ onApplyClick, onSecretAdminClick, onAboutClick }: Navba
     { label: 'Home', target: 'home', type: 'scroll' },
     { label: 'About', target: 'about', type: 'modal' },
     { label: 'Plans', target: 'plans', type: 'scroll' },
+    { label: 'Gallery', target: 'gallery', type: 'scroll' },
     { label: 'Process', target: 'process', type: 'scroll' },
     { label: 'Contact', target: 'contact', type: 'scroll' },
   ]

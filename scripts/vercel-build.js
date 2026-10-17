@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
 // ============================================================
 // VERCEL BUILD SCRIPT - Database Setup
 // ============================================================

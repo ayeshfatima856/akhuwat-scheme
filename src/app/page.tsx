@@ -8,11 +8,11 @@ import { FloatingButtons } from '@/components/floating-buttons'
 import {
   StatsSection,
   ProcessSection,
-  TestimonialsSection,
 } from '@/components/sections'
 import { ContactSection, Footer } from '@/components/contact-footer'
 import { UrduWelcomeSection, LoanPlansSection } from '@/components/loan-plans'
 import { NotesSection } from '@/components/notes-section'
+import { GallerySection } from '@/components/gallery-section'
 import { ApplyForm } from '@/components/apply-form'
 import { AdminPanel } from '@/components/admin-panel'
 import { AboutModal } from '@/components/about-modal'
@@ -62,9 +62,9 @@ export default function Home() {
       <StatsSection />
       <UrduWelcomeSection />
       <LoanPlansSection onApplyClick={handlePlanApplyClick} />
+      <GallerySection />
       <NotesSection />
       <ProcessSection />
-      <TestimonialsSection />
       <ContactSection />
       <Footer />
       <FloatingButtons />
