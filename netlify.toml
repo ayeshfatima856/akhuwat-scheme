@@ -1,0 +1,9 @@
+[build]
+  command = "prisma generate && prisma db push --accept-data-loss && next build"
+  publish = ".next"
+
+[build.environment]
+  NODE_VERSION = "20"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
