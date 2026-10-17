@@ -326,22 +326,25 @@ export function GallerySection() {
               <div
                 className="relative overflow-hidden cursor-pointer group"
                 style={{
-                  height: '400px',
+                  height: '450px',
                   borderRight: i < 2 ? '1px solid rgba(255,255,255,0.2)' : 'none',
+                  background: '#0f5228',
                 }}
                 onClick={() => setSelectedImage(img)}
               >
-                {/* Image - full cover */}
+                {/* Image - contain for full visibility, no cropping */}
                 <img
                   src={img.image}
                   alt={img.title}
                   style={{
                     width: '100%',
                     height: '100%',
-                    objectFit: 'cover',
+                    objectFit: 'contain',
                     transition: 'transform 0.6s ease',
+                    imageRendering: 'high-quality',
+                    WebkitFontSmoothing: 'antialiased',
                   }}
-                  className="group-hover:scale-110"
+                  className="group-hover:scale-105"
                   onError={(e) => {
                     e.currentTarget.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(img.title)}&size=600&background=1a7a3c&color=fff`
                   }}
