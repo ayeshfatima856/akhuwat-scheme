@@ -28,6 +28,12 @@ export function ApplyForm({ open, onClose, presetLoanType, presetPlan }: ApplyFo
   const [submitting, setSubmitting] = useState(false)
   const { toast } = useToast()
   const [selectedPlanLabel, setSelectedPlanLabel] = useState<string>('')
+  // File URLs state - jab user file select karega to yahan save hogi
+  const [fileUrls, setFileUrls] = useState<{
+    cnicFrontUrl?: string
+    cnicBackUrl?: string
+    utilityBillUrl?: string
+  }>({})
   
   const [formData, setFormData] = useState({
     fullName: '', fatherName: '', cnicNumber: '', phoneNumber: '',
@@ -127,6 +133,10 @@ export function ApplyForm({ open, onClose, presetLoanType, presetPlan }: ApplyFo
           ...formData,
           ageAbove18: formData.ageAbove18,
           monthlyIncome: formData.monthlyIncome || null,
+          // File URLs (base64 data URLs) bhejo
+          cnicFrontUrl: fileUrls.cnicFrontUrl || null,
+          cnicBackUrl: fileUrls.cnicBackUrl || null,
+          utilityBillUrl: fileUrls.utilityBillUrl || null,
         }),
       })
       const result = await res.json()
@@ -140,6 +150,7 @@ export function ApplyForm({ open, onClose, presetLoanType, presetPlan }: ApplyFo
           loanType: '', loanAmount: '', loanPurpose: '', monthlyIncome: '',
           confirmInfo: false,
         })
+        setFileUrls({}) // Reset file URLs
       } else {
         toast({ title: '❌ Error', description: result.error, variant: 'destructive' })
       }
@@ -359,11 +370,15 @@ export function ApplyForm({ open, onClose, presetLoanType, presetPlan }: ApplyFo
             </h3>
             <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4">
               {[
-                { name: 'cnicFront', label: 'CNIC Front', icon: '🆔', required: true },
-                { name: 'cnicBack', label: 'CNIC Back', icon: '🆔', required: true },
-                { name: 'utilityBill', label: 'Utility Bill', icon: '📄', required: false },
+                { name: 'cnicFront', label: 'CNIC Front', icon: '🆔', required: true, urlKey: 'cnicFrontUrl' as const },
+                { name: 'cnicBack', label: 'CNIC Back', icon: '🆔', required: true, urlKey: 'cnicBackUrl' as const },
+                { name: 'utilityBill', label: 'Utility Bill', icon: '📄', required: false, urlKey: 'utilityBillUrl' as const },
               ].map((doc, i) => (
-                <FileUploadArea key={i} doc={doc} />
+                <FileUploadArea 
+                  key={i} 
+                  doc={doc} 
+                  onFileSelect={(dataUrl) => setFileUrls(prev => ({ ...prev, [doc.urlKey]: dataUrl }))}
+                />
               ))}
             </div>
             <p className="text-xs italic mt-3" style={{ color: '#95a5a6' }}>
@@ -416,7 +431,13 @@ export function ApplyForm({ open, onClose, presetLoanType, presetPlan }: ApplyFo
 // ============================================================
 // FILE UPLOAD AREA COMPONENT (with image preview)
 // ============================================================
-function FileUploadArea({ doc }: { doc: { name: string; label: string; icon: string; required: boolean } }) {
+function FileUploadArea({ 
+  doc, 
+  onFileSelect 
+}: { 
+  doc: { name: string; label: string; icon: string; required: boolean; urlKey: string }
+  onFileSelect?: (dataUrl: string) => void
+}) {
   const [preview, setPreview] = useState<string | null>(null)
   const [fileName, setFileName] = useState<string>('')
 
@@ -426,10 +447,17 @@ function FileUploadArea({ doc }: { doc: { name: string; label: string; icon: str
       setFileName(file.name)
       if (file.type.startsWith('image/')) {
         const reader = new FileReader()
-        reader.onload = (ev) => setPreview(ev.target?.result as string)
+        reader.onload = (ev) => {
+          const dataUrl = ev.target?.result as string
+          setPreview(dataUrl)
+          // Parent ko data URL bhejo (base64)
+          if (onFileSelect) onFileSelect(dataUrl)
+        }
         reader.readAsDataURL(file)
       } else {
         setPreview(null)
+        // PDF ya doosri file - sirf naam save karo
+        if (onFileSelect) onFileSelect(`FILE:${file.name}`)
       }
     }
   }

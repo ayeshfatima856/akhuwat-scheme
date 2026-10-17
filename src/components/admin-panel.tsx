@@ -30,6 +30,11 @@ interface Application {
   loanAmount: number
   loanPurpose: string
   monthlyIncome: number | null
+  // File URLs (base64 data URLs ya Cloudinary URLs)
+  cnicFrontUrl?: string | null
+  cnicBackUrl?: string | null
+  utilityBillUrl?: string | null
+  photoUrl?: string | null
   status: string
   createdAt: string
 }
@@ -224,9 +229,90 @@ export function AdminPanel({ open, onClose }: AdminPanelProps) {
       bodyStyles: { fontSize: 10 },
       columnStyles: { 0: { fontStyle: 'bold', cellWidth: 60 } },
     })
+
+    // ===== DOCUMENTS SECTION IN PDF (CNIC + Bill Images) =====
+    let currentY = (doc as any).lastAutoTable.finalY + 10
+    
+    // Section header for documents
+    doc.setFillColor(26, 122, 60)
+    doc.rect(14, currentY, 182, 8, 'F')
+    doc.setTextColor(255, 255, 255)
+    doc.setFontSize(11)
+    doc.setFont('helvetica', 'bold')
+    doc.text('📎 UPLOADED DOCUMENTS', 105, currentY + 6, { align: 'center' })
+    currentY += 15
+    
+    // Helper function to add image to PDF (with error handling)
+    const addImageToPdf = (imageUrl: string | null | undefined, label: string, x: number, y: number, w: number, h: number) => {
+      // Label
+      doc.setTextColor(0, 0, 0)
+      doc.setFontSize(9)
+      doc.setFont('helvetica', 'bold')
+      doc.text(label, x + w/2, y - 2, { align: 'center' })
+      
+      // Border
+      doc.setDrawColor(200, 200, 200)
+      doc.setFillColor(248, 250, 251)
+      doc.roundedRect(x, y, w, h, 2, 2, 'FD')
+      
+      if (imageUrl && imageUrl.startsWith('data:image/')) {
+        // It's a base64 image - add to PDF
+        try {
+          // Get image format from data URL
+          const format = imageUrl.includes('image/png') ? 'PNG' : 'JPEG'
+          doc.addImage(imageUrl, format, x + 2, y + 2, w - 4, h - 4, undefined, 'FAST')
+          // Verified badge
+          doc.setTextColor(26, 122, 60)
+          doc.setFontSize(8)
+          doc.text('✓ Verified', x + w - 18, y + h - 2)
+        } catch (error) {
+          // Image add nahi hua
+          doc.setTextColor(150, 150, 150)
+          doc.setFontSize(9)
+          doc.setFont('helvetica', 'normal')
+          doc.text('Image load nahi hui', x + w/2, y + h/2, { align: 'center' })
+        }
+      } else if (imageUrl && imageUrl.startsWith('FILE:')) {
+        // File uploaded but not image
+        doc.setTextColor(150, 150, 150)
+        doc.setFontSize(9)
+        doc.setFont('helvetica', 'normal')
+        doc.text('📄 File: ' + imageUrl.substring(5, 25) + '...', x + w/2, y + h/2, { align: 'center' })
+      } else if (imageUrl && (imageUrl.startsWith('http://') || imageUrl.startsWith('https://'))) {
+        // Cloudinary URL - can't load in jsPDF directly, show URL
+        doc.setTextColor(150, 150, 150)
+        doc.setFontSize(8)
+        doc.setFont('helvetica', 'normal')
+        doc.text('Cloud Image URL', x + w/2, y + h/2 - 3, { align: 'center' })
+        doc.text('(View in admin panel)', x + w/2, y + h/2 + 3, { align: 'center' })
+      } else {
+        // Not uploaded
+        doc.setTextColor(200, 200, 200)
+        doc.setFontSize(9)
+        doc.setFont('helvetica', 'normal')
+        doc.text('Not uploaded', x + w/2, y + h/2, { align: 'center' })
+      }
+    }
+    
+    // Add 3 document images (CNIC Front, CNIC Back, Utility Bill)
+    const imgWidth = 55
+    const imgHeight = 40
+    const imgY = currentY
+    const spacing = 10
+    
+    addImageToPdf(app.cnicFrontUrl, 'CNIC Front', 14, imgY, imgWidth, imgHeight)
+    addImageToPdf(app.cnicBackUrl, 'CNIC Back', 14 + imgWidth + spacing, imgY, imgWidth, imgHeight)
+    addImageToPdf(app.utilityBillUrl, 'Utility Bill', 14 + 2 * (imgWidth + spacing), imgY, imgWidth, imgHeight)
+    
+    currentY = imgY + imgHeight + 15
+    
+    // If content goes beyond page, add new page
+    if (currentY > 270) {
+      doc.addPage()
+      currentY = 20
+    }
     
     // Footer
-    const finalY = (doc as any).lastAutoTable.finalY + 15
     doc.setFillColor(15, 82, 40)
     doc.rect(0, 280, 210, 17, 'F')
     doc.setTextColor(255, 255, 255)
@@ -479,6 +565,33 @@ export function AdminPanel({ open, onClose }: AdminPanelProps) {
                     <DetailRow label="Tracking ID" value={selectedApp.trackingId} />
                   </div>
                 </div>
+
+                {/* ===== DOCUMENTS SECTION (CNIC + Bill Images) ===== */}
+                <div className="rounded-xl p-6" style={{ background: '#f8fafb', border: '1px solid #e8f5e9' }}>
+                  <h3 className="mb-4 pb-2 border-b-2" style={{ color: '#1a7a3c', fontFamily: 'var(--font-playfair), serif', fontSize: '1.2rem', borderColor: '#e8f5e9' }}>
+                    📎 Uploaded Documents
+                  </h3>
+                  <div className="grid grid-cols-3 gap-4">
+                    {/* CNIC Front */}
+                    <DocumentImage 
+                      label="CNIC Front" 
+                      url={selectedApp.cnicFrontUrl} 
+                      required={true}
+                    />
+                    {/* CNIC Back */}
+                    <DocumentImage 
+                      label="CNIC Back" 
+                      url={selectedApp.cnicBackUrl} 
+                      required={true}
+                    />
+                    {/* Utility Bill */}
+                    <DocumentImage 
+                      label="Utility Bill" 
+                      url={selectedApp.utilityBillUrl} 
+                      required={false}
+                    />
+                  </div>
+                </div>
               </div>
 
               {/* Status sidebar */}
@@ -703,6 +816,92 @@ function StatCard({ icon, number, label, color }: { icon: string; number: number
         {number}
       </div>
       <div style={{ color: '#95a5a6', fontSize: '0.8rem' }}>{label}</div>
+    </div>
+  )
+}
+
+// ============================================================
+// DOCUMENT IMAGE COMPONENT - CNIC/Bill images display
+// ============================================================
+function DocumentImage({ label, url, required }: { label: string; url?: string | null; required: boolean }) {
+  const [imageError, setImageError] = useState(false)
+  
+  // Check if URL is valid image (base64 ya http URL)
+  const isValidImage = url && !url.startsWith('FILE:') && !imageError
+  
+  return (
+    <div>
+      <div className="flex items-center justify-between mb-2">
+        <span style={{ fontSize: '0.8rem', fontWeight: 600, color: '#2c3e50' }}>
+          {label}
+        </span>
+        {required && (
+          <span style={{ fontSize: '0.65rem', color: '#dc3545', fontWeight: 600 }}>
+            *Required
+          </span>
+        )}
+      </div>
+      
+      {isValidImage ? (
+        <div
+          className="relative rounded-lg overflow-hidden cursor-pointer group"
+          style={{
+            aspectRatio: '4/3',
+            border: '2px solid #d4edda',
+            background: 'white',
+          }}
+          onClick={() => url && window.open(url, '_blank')}
+        >
+          <img
+            src={url}
+            alt={label}
+            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+            onError={() => setImageError(true)}
+          />
+          {/* Hover overlay */}
+          <div
+            className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+            style={{ background: 'rgba(26,122,60,0.7)' }}
+          >
+            <span style={{ color: 'white', fontSize: '0.75rem', fontWeight: 600 }}>
+              Click to view full
+            </span>
+          </div>
+          {/* Verified badge */}
+          <div
+            className="absolute top-1 right-1 px-1.5 py-0.5 rounded-full text-xs font-bold"
+            style={{ background: 'rgba(26,122,60,0.95)', color: 'white', fontSize: '0.6rem' }}
+          >
+            ✓
+          </div>
+        </div>
+      ) : (
+        <div
+          className="rounded-lg flex items-center justify-center"
+          style={{
+            aspectRatio: '4/3',
+            border: `2px dashed ${required ? '#ffc107' : '#e0e0e0'}`,
+            background: '#f8fafb',
+            color: '#95a5a6',
+            fontSize: '0.75rem',
+            textAlign: 'center',
+            padding: '8px',
+          }}
+        >
+          {url && url.startsWith('FILE:') ? (
+            <div>
+              <div style={{ fontSize: '1.5rem', marginBottom: 4 }}>📄</div>
+              <div style={{ fontSize: '0.7rem' }}>{url.substring(5)}</div>
+              <div style={{ fontSize: '0.6rem', marginTop: 2, color: '#95a5a6' }}>(File uploaded)</div>
+            </div>
+          ) : (
+            <div>
+              <div style={{ fontSize: '1.5rem', marginBottom: 4 }}>📭</div>
+              <div>Not uploaded</div>
+            </div>
+          )}
+        </div>
+      )}
     </div>
   )
 }
