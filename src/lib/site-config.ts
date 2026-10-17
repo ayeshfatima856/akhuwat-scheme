@@ -13,10 +13,10 @@ export const SITE_CONFIG = {
   // Format: Country code + number (without 0 at start)
   // Example: 03223152067 -> 923223152067 (92 = Pakistan code)
   // Agar number change karna ho to sirf yahan edit karein
-  WHATSAPP_NUMBER: '923314626528',
+  WHATSAPP_NUMBER: '923032717680',
   
   // Display format (jo website par dikhana hai)
-  WHATSAPP_DISPLAY: '+92 3314626528',
+  WHATSAPP_DISPLAY: '+923032717680',
   
   // Default WhatsApp message (jab koi chat kholta hai)
   WHATSAPP_MESSAGE: 'Assalam-o-Alaikum! Mujhe Akhuwat Scheme ke baare mein maloomat chahiye.',
