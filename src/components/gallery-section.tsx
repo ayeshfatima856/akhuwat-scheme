@@ -92,37 +92,37 @@ const customerReviews: GalleryItem[] = [
   },
 ]
 
-// 3 User-provided Akhuwat promotional images (high-quality, full-width)
+// 3 User-provided Akhuwat images (full-width compensated below reviews)
 const userImages: UserImage[] = [
   {
     id: 1,
-    image: '/gallery/akhuwat-loan-scheme.png',
-    title: 'Akhuwat Loan Scheme',
-    subtitle: 'Official Foundation Banner',
-    description: 'Akhuwat Foundation ka official loan scheme banner. Be-sood qarza faraham kar ke logon ki maddad. Hazaron logon ne apne khaab poore kiye.',
+    image: '/gallery/akhuwat-event.png',
+    title: 'Akhuwat Annual Gathering',
+    subtitle: 'Annual Akhuwat Event',
+    description: 'Akhuwat Foundation ka saalana event jahan hazaron log shamil hote hain. Bina sood qarza ki barkat aur logon ki maddad ka jashn manaya jata hai. Akhuwat ki team is event mein logo ko be-sood qarza distribute karti hai.',
     category: 'event',
     icon: Users,
-    impact: '50,000+ Loans',
+    impact: '5,000+ Attendees',
   },
   {
     id: 2,
-    image: '/gallery/founder-video.png',
-    title: 'Founder Message',
-    subtitle: 'Dr. Muhammad Amjad Saqib',
-    description: 'Akhuwat Foundation ke founder Dr. Muhammad Amjad Saqib ka message. "Humara mission hai be-sood qarza de kar logon ki maddad karna."',
+    image: '/gallery/education-clothes.png',
+    title: 'Education & Relief Services',
+    subtitle: 'Akhuwat Services',
+    description: 'Akhuwat Education Services (AES) ke zariye 12,000 se zyada students ko free education di ja rahi hai. Akhuwat Clothes Bank (ACB) ke zariye 50,000 se zyada ghareeb families ko kapde aur rashan diya jaata hai.',
     category: 'community',
     icon: GraduationCap,
-    impact: 'Vision & Mission',
+    impact: '12,000+ Students',
   },
   {
     id: 3,
-    image: '/gallery/boost-business.png',
-    title: 'Boost Your Business',
-    subtitle: 'Business Loan Approved',
-    description: 'Apna karobar shuru karein ya expand karein. Akhuwat ke be-sood business loans se hazaron logon ne apna karobar set up kiya.',
+    image: '/gallery/blog-stories.png',
+    title: 'Real Success Stories',
+    subtitle: 'Real People, Real Impact',
+    description: 'Azra Parveen ki kahani - 20,000 rupay se shuru kar ke business owner bani. Akhuwat ke interest-free loans se hazaron logon ki zindagi badal gayi. Yeh waqai ki kahaniyan hain.',
     category: 'community',
     icon: HeartHandshake,
-    impact: '10% Fee Discount',
+    impact: 'Real Stories',
   },
 ]
 
@@ -319,31 +319,30 @@ export function GallerySection() {
           </div>
         </AnimateIn>
 
-        {/* 3 Full-Width Image Cards - Mobile Responsive with Clear Images */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-0" style={{ marginBottom: 32 }}>
+        {/* 3 Image Cards - Mobile Responsive (1 col mobile, 3 col desktop) */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-2" style={{ marginBottom: 32 }}>
           {userImages.map((img, i) => (
             <AnimateIn key={img.id} delay={i * 150}>
               <div
-                className="relative overflow-hidden cursor-pointer group rounded-2xl md:rounded-none"
+                className="relative overflow-hidden cursor-pointer group rounded-2xl md:rounded-lg"
                 style={{
                   height: 'auto',
-                  minHeight: '300px',
-                  maxHeight: '500px',
+                  minHeight: '350px',
                   background: '#0f5228',
+                  border: '1px solid #e8f5e9',
                 }}
                 onClick={() => setSelectedImage(img)}
               >
-                {/* Image - contain for full image visibility, no crop, no pixelation */}
+                {/* Image - contain for full image, no crop, clear quality */}
                 <img
                   src={img.image}
                   alt={img.title}
                   style={{
                     width: '100%',
                     height: '100%',
-                    minHeight: '300px',
-                    maxHeight: '500px',
+                    minHeight: '350px',
                     objectFit: 'contain',
-                    objectPosition: 'center',
+                    objectPosition: 'center top',
                     transition: 'transform 0.6s ease',
                   }}
                   className="group-hover:scale-105"
