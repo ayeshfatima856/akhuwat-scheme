@@ -319,27 +319,30 @@ export function GallerySection() {
           </div>
         </AnimateIn>
 
-        {/* 3 Full-Width Image Cards (compensated - no gaps) */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-0 md:gap-0" style={{ marginBottom: 32 }}>
+        {/* 3 Full-Width Image Cards - Mobile Responsive with Clear Images */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-0" style={{ marginBottom: 32 }}>
           {userImages.map((img, i) => (
             <AnimateIn key={img.id} delay={i * 150}>
               <div
-                className="relative overflow-hidden cursor-pointer group"
+                className="relative overflow-hidden cursor-pointer group rounded-2xl md:rounded-none"
                 style={{
-                  height: '500px',
-                  borderRight: i < 2 ? '1px solid rgba(255,255,255,0.2)' : 'none',
+                  height: 'auto',
+                  minHeight: '300px',
+                  maxHeight: '500px',
                   background: '#0f5228',
                 }}
                 onClick={() => setSelectedImage(img)}
               >
-                {/* Image - cover for full display, high quality */}
+                {/* Image - contain for full image visibility, no crop, no pixelation */}
                 <img
                   src={img.image}
                   alt={img.title}
                   style={{
                     width: '100%',
                     height: '100%',
-                    objectFit: 'cover',
+                    minHeight: '300px',
+                    maxHeight: '500px',
+                    objectFit: 'contain',
                     objectPosition: 'center',
                     transition: 'transform 0.6s ease',
                   }}
