@@ -27,13 +27,12 @@ export default function Home() {
   // ===== WEBSITE KHULTE HI APPLY FORM AUTO-OPEN HO JAYE =====
   // Preloader (2.2s) ke thik baad form khul jata hai
   // User ko pehle hi form samne mil jaye ga
-  // NOTE: Auto-open temporarily disabled for preview testing
-  // useEffect(() => {
-  //   const timer = setTimeout(() => {
-  //     setApplyOpen(true)
-  //   }, 2500)
-  //   return () => clearTimeout(timer)
-  // }, [])
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setApplyOpen(true)
+    }, 2500) // 2.5 second baad (preloader 2.2s + thoda buffer)
+    return () => clearTimeout(timer)
+  }, [])
 
   const handleApplyClick = (loanType?: string) => {
     setPresetPlan(null)

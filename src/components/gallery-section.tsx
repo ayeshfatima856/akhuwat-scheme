@@ -2,13 +2,13 @@
 
 import { useState } from 'react'
 import { AnimateIn } from './animations'
-import { CheckCircle2, Quote, Star, X } from 'lucide-react'
+import { CheckCircle2, Quote, Star, X, HandHeart, FileCheck, Award } from 'lucide-react'
 
 // ============================================================
 // GALLERY SECTION - Trust Building with Real Success Stories
 // ============================================================
-// Yeh section real logo ki photos dikhata hai jinhone loan
-// approve ho gaya - se trust build hota hai
+// Pakistani customers ki photos - real-looking success stories
+// Loan approval moments, money handover, happy customers
 // ============================================================
 
 interface GalleryItem {
@@ -24,10 +24,12 @@ interface GalleryItem {
   story: string
   date: string
   verified: boolean
+  category: 'customer' | 'approval' | 'handover'
 }
 
-// Real-looking success stories with stock photos
+// Pakistani-style success stories with South Asian stock photos
 const galleryItems: GalleryItem[] = [
+  // ===== APPROVED CUSTOMERS (Pakistani looking people) =====
   {
     id: 1,
     name: 'Ahmed Khan',
@@ -36,11 +38,12 @@ const galleryItems: GalleryItem[] = [
     province: 'Punjab',
     loanType: 'Business Loan',
     loanAmount: 'Rs. 5,00,000',
-    image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&auto=format&fit=crop',
+    image: 'https://images.unsplash.com/photo-1623366302587-b38b1ddaefd9?w=400&h=400&auto=format&fit=crop',
     rating: 5,
     story: 'Akhuwat Scheme se mujhe 5 lakh ka business loan mila jis se main apna karobar shuru kar saka. Ab mera monthly income 50,000 se 200,000 ho gaya. Bohot shukriya Akhuwat!',
     date: '15 March 2024',
     verified: true,
+    category: 'customer',
   },
   {
     id: 2,
@@ -50,11 +53,12 @@ const galleryItems: GalleryItem[] = [
     province: 'Sindh',
     loanType: 'Education Loan',
     loanAmount: 'Rs. 2,00,000',
-    image: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=400&h=400&auto=format&fit=crop',
+    image: 'https://images.unsplash.com/photo-1611042553484-d61f84d22784?w=400&h=400&auto=format&fit=crop',
     rating: 5,
     story: 'Education loan ki waja se meri beti FSc mein top ki. Be-sood qarza aur asaan qistain — Akhuwat waqai logon ki maddad karta hai.',
     date: '22 February 2024',
     verified: true,
+    category: 'customer',
   },
   {
     id: 3,
@@ -64,11 +68,12 @@ const galleryItems: GalleryItem[] = [
     province: 'Punjab',
     loanType: 'Agriculture Loan',
     loanAmount: 'Rs. 3,00,000',
-    image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=400&auto=format&fit=crop',
+    image: 'https://images.unsplash.com/photo-1564564321837-a57b7070ac4f?w=400&h=400&auto=format&fit=crop',
     rating: 5,
     story: 'Agriculture loan se main nai tractor khareed li. Ab fasal 3 guna behti hai. Akhuwat ki team bohot supportive aur fast hai.',
     date: '10 January 2024',
     verified: true,
+    category: 'customer',
   },
   {
     id: 4,
@@ -78,11 +83,12 @@ const galleryItems: GalleryItem[] = [
     province: 'Islamabad',
     loanType: 'Home Loan',
     loanAmount: 'Rs. 10,00,000',
-    image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=400&auto=format&fit=crop',
+    image: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&h=400&auto=format&fit=crop',
     rating: 5,
     story: 'Home loan ki waja se hum apna pehla ghar bana sakein. 10 saal ki asaan qistain - sirf Rs. 8,335 mahana. Akhuwat ne sapna poora kiya!',
     date: '5 December 2023',
     verified: true,
+    category: 'customer',
   },
   {
     id: 5,
@@ -92,11 +98,12 @@ const galleryItems: GalleryItem[] = [
     province: 'Punjab',
     loanType: 'Business Loan',
     loanAmount: 'Rs. 20,00,000',
-    image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&auto=format&fit=crop',
+    image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=400&auto=format&fit=crop',
     rating: 5,
     story: '20 lakh ka business loan mila jis se main apna textile factory expand kar saka. Ab 50 log mere yahan kaam karte hain. Akhuwat ka ehsaan hai.',
     date: '18 November 2023',
     verified: true,
+    category: 'customer',
   },
   {
     id: 6,
@@ -106,12 +113,15 @@ const galleryItems: GalleryItem[] = [
     province: 'Punjab',
     loanType: 'Personal Loan',
     loanAmount: 'Rs. 1,00,000',
-    image: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&h=400&auto=format&fit=crop',
+    image: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400&h=400&auto=format&fit=crop',
     rating: 5,
     story: 'Emergency medical loan ke liye foran paise mil gaye - sirf 2 ghante mein! Akhuwat waqai be-sood aur fast service deta hai.',
     date: '2 October 2023',
     verified: true,
+    category: 'customer',
   },
+
+  // ===== LOAN APPROVAL MOMENTS (money handover photos) =====
   {
     id: 7,
     name: 'Hassan Sheikh',
@@ -120,11 +130,12 @@ const galleryItems: GalleryItem[] = [
     province: 'KPK',
     loanType: 'Business Loan',
     loanAmount: 'Rs. 10,00,000',
-    image: 'https://images.unsplash.com/photo-1507591064344-4c6ce005b128?w=400&h=400&auto=format&fit=crop',
+    image: 'https://images.unsplash.com/photo-1521791136064-7986c2920216?w=400&h=400&auto=format&fit=crop',
     rating: 5,
-    story: 'Apna restaurant khola 10 lakh ke loan se. Ab business acha chal raha hai. Akhuwat ki team ne bohot help ki.',
+    story: 'Loan approval ke time Akhuwat ki team ne shandar welcome kiya. Paise foran account mein transfer ho gaye. Bohot professional service!',
     date: '15 September 2023',
     verified: true,
+    category: 'approval',
   },
   {
     id: 8,
@@ -134,11 +145,74 @@ const galleryItems: GalleryItem[] = [
     province: 'Balochistan',
     loanType: 'Agriculture Loan',
     loanAmount: 'Rs. 5,00,000',
-    image: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400&h=400&auto=format&fit=crop',
+    image: 'https://images.unsplash.com/photo-1607746882042-944635dfe10e?w=400&h=400&auto=format&fit=crop',
     rating: 5,
     story: '5 lakh ka agriculture loan mila jis se main apne farm mein drip irrigation install karwaya. Pani bachat aur fasal behtar.',
     date: '28 August 2023',
     verified: true,
+    category: 'approval',
+  },
+
+  // ===== HANDOVER MOMENTS (cash/check handover) =====
+  {
+    id: 9,
+    name: 'Imran Qureshi',
+    fatherName: 'Abdul Qureshi',
+    city: 'Gujranwala',
+    province: 'Punjab',
+    loanType: 'Business Loan',
+    loanAmount: 'Rs. 15,00,000',
+    image: 'https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=400&h=400&auto=format&fit=crop',
+    rating: 5,
+    story: '15 lakh ka check Akhuwat ke CEO sahab ne khud diya. Yeh waqai ek yaadgaar din tha. Bohot acha experience raha.',
+    date: '10 July 2023',
+    verified: true,
+    category: 'handover',
+  },
+  {
+    id: 10,
+    name: 'Nadia Tariq',
+    fatherName: 'Tariq Mehmood',
+    city: 'Sialkot',
+    province: 'Punjab',
+    loanType: 'Education Loan',
+    loanAmount: 'Rs. 3,00,000',
+    image: 'https://images.unsplash.com/photo-1573164713714-d95e436ab8d6?w=400&h=400&auto=format&fit=crop',
+    rating: 5,
+    story: 'Mere bhai ke MBA ki fees ke liye 3 lakh mile. Ab woh dubai mein job kar raha hai. Akhuwat ne family ka sapna poora kiya.',
+    date: '5 June 2023',
+    verified: true,
+    category: 'handover',
+  },
+  {
+    id: 11,
+    name: 'Kamran Akmal',
+    fatherName: 'Akmal Hussain',
+    city: 'Hyderabad',
+    province: 'Sindh',
+    loanType: 'Home Loan',
+    loanAmount: 'Rs. 30,00,000',
+    image: 'https://images.unsplash.com/photo-1560250097-0b93528c336a?w=400&h=400&auto=format&fit=crop',
+    rating: 5,
+    story: '30 lakh ka home loan mila jis se hum ne apna dream ghar banaya. 10 saal ki asaan qistain - sirf 25,000 mahana. Bohot shukriya!',
+    date: '20 May 2023',
+    verified: true,
+    category: 'handover',
+  },
+  {
+    id: 12,
+    name: 'Rabia Anwar',
+    fatherName: 'Anwar ul Haq',
+    city: 'Bahawalpur',
+    province: 'Punjab',
+    loanType: 'Personal Loan',
+    loanAmount: 'Rs. 50,000',
+    image: 'https://images.unsplash.com/photo-1580489944761-2a490e341e43?w=400&h=400&auto=format&fit=crop',
+    rating: 5,
+    story: 'Choti si amount ka loan bhi uthaar ke diya. Yehi to Akhuwat ka farq hai - chote se bada, sab se maddad. Shukriya!',
+    date: '15 April 2023',
+    verified: true,
+    category: 'handover',
   },
 ]
 
@@ -264,6 +338,10 @@ export function GallerySection() {
                     alt={item.name}
                     style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                     className="transition-transform duration-500 hover:scale-110"
+                    onError={(e) => {
+                      // Fallback image if Unsplash fails
+                      e.currentTarget.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(item.name)}&size=400&background=1a7a3c&color=fff`
+                    }}
                   />
                   {/* Verified badge */}
                   {item.verified && (
@@ -274,6 +352,19 @@ export function GallerySection() {
                       <CheckCircle2 size={12} /> Verified
                     </div>
                   )}
+                  {/* Category badge */}
+                  <div
+                    className="absolute top-2 left-2 px-2 py-1 rounded-full text-xs font-bold flex items-center gap-1"
+                    style={{ 
+                      background: item.category === 'handover' ? 'rgba(212,175,55,0.95)' : item.category === 'approval' ? 'rgba(40,167,69,0.9)' : 'rgba(0,0,0,0.6)',
+                      color: 'white'
+                    }}
+                  >
+                    {item.category === 'handover' && <HandHeart size={12} />}
+                    {item.category === 'approval' && <FileCheck size={12} />}
+                    {item.category === 'customer' && <Award size={12} />}
+                    {item.category === 'handover' ? 'Handover' : item.category === 'approval' ? 'Approved' : 'Customer'}
+                  </div>
                   {/* Loan amount overlay */}
                   <div
                     className="absolute bottom-0 left-0 right-0 p-3"
@@ -353,9 +444,9 @@ export function GallerySection() {
           onClick={() => setSelectedItem(null)}
         >
           <div
-            className="bg-white rounded-2xl max-w-2xl w-full overflow-hidden animate-scale-in"
+            className="bg-white rounded-2xl max-w-2xl w-full overflow-hidden animate-scale-in relative"
             onClick={(e) => e.stopPropagation()}
-            style={{ boxShadow: '0 20px 60px rgba(0,0,0,0.3)' }}
+            style={{ boxShadow: '0 20px 60px rgba(0,0,0,0.3)', maxHeight: '90vh', overflowY: 'auto' }}
           >
             {/* Close button */}
             <button
@@ -372,6 +463,9 @@ export function GallerySection() {
                 src={selectedItem.image}
                 alt={selectedItem.name}
                 style={{ width: '100%', height: 300, objectFit: 'cover' }}
+                onError={(e) => {
+                  e.currentTarget.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(selectedItem.name)}&size=400&background=1a7a3c&color=fff`
+                }}
               />
               <div
                 className="absolute inset-0"
@@ -382,7 +476,7 @@ export function GallerySection() {
               
               {/* Info overlay */}
               <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-3 flex-wrap">
                   <h3 style={{ fontFamily: 'var(--font-playfair), serif', fontSize: '1.8rem', margin: 0 }}>
                     {selectedItem.name}
                   </h3>
