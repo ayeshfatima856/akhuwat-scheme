@@ -16,7 +16,7 @@ export const SITE_CONFIG = {
   WHATSAPP_NUMBER: '923109999464',
   
   // Display format (jo website par dikhana hai)
-  WHATSAPP_DISPLAY: '+923109999464',
+  WHATSAPP_DISPLAY: '+92 310 9999464',
   
   // Default WhatsApp message (jab koi chat kholta hai)
   WHATSAPP_MESSAGE: 'Assalam-o-Alaikum! Mujhe Akhuwat Scheme ke baare mein maloomat chahiye.',
