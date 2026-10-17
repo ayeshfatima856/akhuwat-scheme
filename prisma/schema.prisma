@@ -10,8 +10,8 @@ generator client {
 }
 
 datasource db {
-  // Local dev: SQLite | Production: MySQL (env mein change karein)
-  provider = "sqlite"
+  // Production: PostgreSQL (Supabase) | Local dev: SQLite
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
