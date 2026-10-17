@@ -571,7 +571,7 @@ export function AdminPanel({ open, onClose }: AdminPanelProps) {
                   <h3 className="mb-4 pb-2 border-b-2" style={{ color: '#1a7a3c', fontFamily: 'var(--font-playfair), serif', fontSize: '1.2rem', borderColor: '#e8f5e9' }}>
                     📎 Uploaded Documents
                   </h3>
-                  <div className="grid grid-cols-3 gap-4">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     {/* CNIC Front */}
                     <DocumentImage 
                       label="CNIC Front" 
@@ -821,10 +821,11 @@ function StatCard({ icon, number, label, color }: { icon: string; number: number
 }
 
 // ============================================================
-// DOCUMENT IMAGE COMPONENT - CNIC/Bill images display
+// DOCUMENT IMAGE COMPONENT - CNIC/Bill images display (Bigger & Clearer)
 // ============================================================
 function DocumentImage({ label, url, required }: { label: string; url?: string | null; required: boolean }) {
   const [imageError, setImageError] = useState(false)
+  const [showFullImage, setShowFullImage] = useState(false)
   
   // Check if URL is valid image (base64 ya http URL)
   const isValidImage = url && !url.startsWith('FILE:') && !imageError
@@ -832,72 +833,137 @@ function DocumentImage({ label, url, required }: { label: string; url?: string |
   return (
     <div>
       <div className="flex items-center justify-between mb-2">
-        <span style={{ fontSize: '0.8rem', fontWeight: 600, color: '#2c3e50' }}>
+        <span style={{ fontSize: '0.9rem', fontWeight: 600, color: '#2c3e50' }}>
           {label}
         </span>
-        {required && (
-          <span style={{ fontSize: '0.65rem', color: '#dc3545', fontWeight: 600 }}>
+        {required ? (
+          <span style={{ fontSize: '0.7rem', color: '#dc3545', fontWeight: 600 }}>
             *Required
+          </span>
+        ) : (
+          <span style={{ fontSize: '0.7rem', color: '#95a5a6', fontWeight: 600 }}>
+            Optional
           </span>
         )}
       </div>
       
       {isValidImage ? (
-        <div
-          className="relative rounded-lg overflow-hidden cursor-pointer group"
-          style={{
-            aspectRatio: '4/3',
-            border: '2px solid #d4edda',
-            background: 'white',
-          }}
-          onClick={() => url && window.open(url, '_blank')}
-        >
-          <img
-            src={url}
-            alt={label}
-            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-            onError={() => setImageError(true)}
-          />
-          {/* Hover overlay */}
+        <>
           <div
-            className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
-            style={{ background: 'rgba(26,122,60,0.7)' }}
+            className="relative rounded-lg overflow-hidden cursor-pointer group"
+            style={{
+              aspectRatio: '3/2',
+              border: '2px solid #d4edda',
+              background: 'white',
+              boxShadow: '0 2px 8px rgba(15,82,40,0.1)',
+            }}
+            onClick={() => setShowFullImage(true)}
           >
-            <span style={{ color: 'white', fontSize: '0.75rem', fontWeight: 600 }}>
-              Click to view full
-            </span>
+            <img
+              src={url}
+              alt={label}
+              style={{ 
+                width: '100%', 
+                height: '100%', 
+                objectFit: 'contain',
+                background: 'white',
+              }}
+              onError={() => setImageError(true)}
+            />
+            {/* Hover overlay */}
+            <div
+              className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+              style={{ background: 'rgba(26,122,60,0.8)' }}
+            >
+              <div style={{ textAlign: 'center', color: 'white' }}>
+                <div style={{ fontSize: '1.5rem', marginBottom: 4 }}>🔍</div>
+                <div style={{ fontSize: '0.8rem', fontWeight: 600 }}>
+                  Click to view full size
+                </div>
+              </div>
+            </div>
+            {/* Verified badge */}
+            <div
+              className="absolute top-1 right-1 px-2 py-1 rounded-full text-xs font-bold flex items-center gap-1"
+              style={{ background: 'rgba(26,122,60,0.95)', color: 'white', fontSize: '0.65rem' }}
+            >
+              ✓ Verified
+            </div>
           </div>
-          {/* Verified badge */}
-          <div
-            className="absolute top-1 right-1 px-1.5 py-0.5 rounded-full text-xs font-bold"
-            style={{ background: 'rgba(26,122,60,0.95)', color: 'white', fontSize: '0.6rem' }}
-          >
-            ✓
-          </div>
-        </div>
+          
+          {/* Full Image Modal - bahut bada display */}
+          {showFullImage && url && (
+            <div
+              className="fixed inset-0 z-[200] flex items-center justify-center p-4 animate-fade-in"
+              style={{ background: 'rgba(0,0,0,0.9)' }}
+              onClick={() => setShowFullImage(false)}
+            >
+              <div
+                className="relative max-w-5xl w-full"
+                onClick={(e) => e.stopPropagation()}
+              >
+                {/* Close button */}
+                <button
+                  onClick={() => setShowFullImage(false)}
+                  className="absolute top-4 right-4 bg-white/20 hover:bg-white/30 rounded-full p-2 transition-all z-10"
+                  style={{ color: 'white' }}
+                >
+                  <X size={24} />
+                </button>
+                
+                {/* Image */}
+                <img
+                  src={url}
+                  alt={label}
+                  style={{
+                    maxWidth: '100%',
+                    maxHeight: '85vh',
+                    objectFit: 'contain',
+                    borderRadius: 8,
+                    boxShadow: '0 20px 60px rgba(0,0,0,0.5)',
+                  }}
+                />
+                
+                {/* Label bar */}
+                <div
+                  className="mt-4 text-center px-4 py-2 rounded-full inline-block"
+                  style={{
+                    background: 'rgba(26,122,60,0.95)',
+                    color: 'white',
+                    fontSize: '0.9rem',
+                    fontWeight: 600,
+                  }}
+                >
+                  📎 {label} - Full Size View
+                </div>
+              </div>
+            </div>
+          )}
+        </>
       ) : (
         <div
           className="rounded-lg flex items-center justify-center"
           style={{
-            aspectRatio: '4/3',
+            aspectRatio: '3/2',
             border: `2px dashed ${required ? '#ffc107' : '#e0e0e0'}`,
             background: '#f8fafb',
             color: '#95a5a6',
-            fontSize: '0.75rem',
+            fontSize: '0.85rem',
             textAlign: 'center',
-            padding: '8px',
+            padding: '12px',
           }}
         >
           {url && url.startsWith('FILE:') ? (
             <div>
-              <div style={{ fontSize: '1.5rem', marginBottom: 4 }}>📄</div>
-              <div style={{ fontSize: '0.7rem' }}>{url.substring(5)}</div>
-              <div style={{ fontSize: '0.6rem', marginTop: 2, color: '#95a5a6' }}>(File uploaded)</div>
+              <div style={{ fontSize: '2rem', marginBottom: 6 }}>📄</div>
+              <div style={{ fontSize: '0.8rem', fontWeight: 600 }}>{url.substring(5)}</div>
+              <div style={{ fontSize: '0.7rem', marginTop: 4, color: '#95a5a6' }}>(File uploaded - not an image)</div>
             </div>
           ) : (
             <div>
-              <div style={{ fontSize: '1.5rem', marginBottom: 4 }}>📭</div>
-              <div>Not uploaded</div>
+              <div style={{ fontSize: '2rem', marginBottom: 6 }}>📭</div>
+              <div style={{ fontWeight: 600 }}>Not uploaded</div>
+              {required && <div style={{ fontSize: '0.7rem', marginTop: 4, color: '#dc3545' }}>(Required)</div>}
             </div>
           )}
         </div>

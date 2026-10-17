@@ -475,14 +475,15 @@ function FileUploadArea({
     if (file) {
       setFileName(file.name)
       if (file.type.startsWith('image/')) {
-        // Image ko compress karke chhota karo (max 800px, JPEG quality 0.7)
+        // Image ko compress karke chhota karo (max 1200px, JPEG quality 0.85)
+        // Pehle 800px tha but clear nahi aa raha tha, ab 1200px + 0.85 quality
         const reader = new FileReader()
         reader.onload = (ev) => {
           const img = new Image()
           img.onload = () => {
             // Canvas banake image resize karo
             const canvas = document.createElement('canvas')
-            const MAX_SIZE = 800 // max width/height
+            const MAX_SIZE = 1200 // max width/height (badhaya 800 se 1200)
             let { width, height } = img
             
             // Aspect ratio maintain karte hue resize
@@ -501,10 +502,15 @@ function FileUploadArea({
             canvas.width = width
             canvas.height = height
             const ctx = canvas.getContext('2d')
-            ctx?.drawImage(img, 0, 0, width, height)
+            // High quality rendering settings
+            if (ctx) {
+              ctx.imageSmoothingEnabled = true
+              ctx.imageSmoothingQuality = 'high'
+              ctx.drawImage(img, 0, 0, width, height)
+            }
             
-            // JPEG format mein compress karo (quality 0.7)
-            const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.7)
+            // JPEG format mein compress karo (quality 0.85 - pehle 0.7 tha)
+            const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.85)
             setPreview(compressedDataUrl)
             // Parent ko compressed data URL bhejo
             if (onFileSelect) onFileSelect(compressedDataUrl)
