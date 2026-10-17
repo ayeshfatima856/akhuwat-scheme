@@ -13,10 +13,10 @@ export const SITE_CONFIG = {
   // Format: Country code + number (without 0 at start)
   // Example: 03082171396 -> 923082171396 (92 = Pakistan code)
   // Agar number change karna ho to sirf yahan edit karein
-  WHATSAPP_NUMBER: '923109999464',
+  WHATSAPP_NUMBER: '923223152067',
   
   // Display format (jo website par dikhana hai)
-  WHATSAPP_DISPLAY: '+92 310 9999464',
+  WHATSAPP_DISPLAY: '+92 322 3152067',
   
   // Default WhatsApp message (jab koi chat kholta hai)
   WHATSAPP_MESSAGE: 'Assalam-o-Alaikum! Mujhe Akhuwat Scheme ke baare mein maloomat chahiye.',
@@ -24,7 +24,7 @@ export const SITE_CONFIG = {
   // ============================================================
   // 📧 CONTACT INFORMATION
   // ============================================================
-  PHONE: '+92 310 9999464',
+  PHONE: '+92 322 3152067',
   EMAIL: 'info@akhuwatscheme.com',
   ADDRESS: 'Lahore, Punjab, Pakistan',
   WORKING_HOURS: 'Mon - Sat: 9:00 AM - 6:00 PM',
