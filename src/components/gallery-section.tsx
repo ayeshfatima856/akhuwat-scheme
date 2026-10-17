@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { AnimateIn } from './animations'
-import { CheckCircle2, Quote, Star, X, Users, GraduationCap, HeartHandshake, Building2 } from 'lucide-react'
+import { CheckCircle2, Quote, Star, X, Users, GraduationCap, HeartHandshake } from 'lucide-react'
 
 // ============================================================
 // GALLERY SECTION - Trust Building with Real Success Stories
@@ -30,7 +30,7 @@ interface GalleryItem {
   subtitle?: string
 }
 
-// 4 verified Pakistani customer reviews + community/event photos
+// 4 verified Pakistani customer reviews + 3 user-provided Akhuwat images
 const galleryItems: GalleryItem[] = [
   // ===== 4 CUSTOMER REVIEWS (Pakistani) =====
   {
@@ -94,7 +94,7 @@ const galleryItems: GalleryItem[] = [
     category: 'customer',
   },
 
-  // ===== COMMUNITY & EVENT PHOTOS (like your images) =====
+  // ===== USER-PROVIDED AKHUWAT IMAGES (3 photos) =====
   {
     id: 5,
     name: 'Akhuwat Annual Gathering',
@@ -103,9 +103,9 @@ const galleryItems: GalleryItem[] = [
     province: 'Punjab',
     loanType: 'Community Event',
     loanAmount: '5,000+ Attendees',
-    image: 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=400&h=400&auto=format&fit=crop',
+    image: '/gallery/akhuwat-event.png',
     rating: 5,
-    story: 'Akhuwat Foundation ka saalana event jahan hazaron log shamil hote hain. Bina sood qarza ki barkat aur logon ki maddad ka jashn manaya jata hai.',
+    story: 'Akhuwat Foundation ka saalana event jahan hazaron log shamil hote hain. Bina sood qarza ki barkat aur logon ki maddad ka jashn manaya jata hai. Akhuwat ki team is event mein logo ko be-sood qarza distribute karti hai.',
     date: 'Annual Event 2024',
     verified: true,
     category: 'event',
@@ -115,57 +115,39 @@ const galleryItems: GalleryItem[] = [
   },
   {
     id: 6,
-    name: 'Akhuwat Education Services',
-    fatherName: 'Education Program',
+    name: 'Education & Relief Services',
+    fatherName: 'Akhuwat Programs',
     city: 'Karachi',
     province: 'Sindh',
-    loanType: 'Education Program',
+    loanType: 'Education & Relief',
     loanAmount: '12,000+ Students',
-    image: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=400&h=400&auto=format&fit=crop',
+    image: '/gallery/education-clothes.png',
     rating: 5,
-    story: 'Akhuwat Education Services (AES) ke zariye 12,000 se zyada students ko free education di ja rahi hai. Yeh waqai ek noble mission hai.',
-    date: 'Education Drive 2024',
-    verified: true,
-    category: 'community',
-    icon: GraduationCap,
-    title: 'Education Services',
-    subtitle: 'Free Education for All',
-  },
-  {
-    id: 7,
-    name: 'Akhuwat Clothes Bank',
-    fatherName: 'Relief Program',
-    city: 'Multan',
-    province: 'Punjab',
-    loanType: 'Relief Program',
-    loanAmount: '50,000+ Families',
-    image: 'https://images.unsplash.com/photo-1593113598332-cd288d649433?w=400&h=400&auto=format&fit=crop',
-    rating: 5,
-    story: 'Akhuwat Clothes Bank (ACB) ke zariye 50,000 se zyada ghareeb families ko kapde aur rashaam diya jaata hai. Hamari team flood aur earthquake victims ki maddad ke liye hamesha ready hai.',
+    story: 'Akhuwat Education Services (AES) ke zariye 12,000 se zyada students ko free education di ja rahi hai. Akhuwat Clothes Bank (ACB) ke zariye 50,000 se zyada ghareeb families ko kapde aur rashan diya jaata hai.',
     date: 'Relief Drive 2024',
     verified: true,
     category: 'community',
-    icon: HeartHandshake,
-    title: 'Clothes Bank',
-    subtitle: 'Helping Needy Families',
+    icon: GraduationCap,
+    title: 'Education & Relief',
+    subtitle: 'Akhuwat Services',
   },
   {
-    id: 8,
-    name: 'Women Empowerment Program',
-    fatherName: 'Women Initiative',
-    city: 'Faisalabad',
-    province: 'Punjab',
-    loanType: 'Women Loan',
-    loanAmount: '8,000+ Women',
-    image: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3a?w=400&h=400&auto=format&fit=crop',
+    id: 7,
+    name: 'Real Success Stories',
+    fatherName: 'Akhuwat Blog',
+    city: 'Pakistan',
+    province: 'Nationwide',
+    loanType: 'Success Stories',
+    loanAmount: 'Real Stories',
+    image: '/gallery/blog-stories.png',
     rating: 5,
-    story: 'Women Empowerment Program ke zariye 8,000 se zyada auraton ko be-sood qarza diya jaata hai. Hum auraton ko khud kamar pane mein maddad karte hain.',
-    date: 'Women Day 2024',
+    story: 'Azra Parveen ki kahani - 20,000 rupay se shuru kar ke business owner bani. Akhuwat ke interest-free loans se hazaron logon ki zindagi badal gayi. Yeh waqai ki kahaniyan hain.',
+    date: 'Blog Stories 2024',
     verified: true,
     category: 'community',
-    icon: Building2,
-    title: 'Women Empowerment',
-    subtitle: 'Empowering Women',
+    icon: HeartHandshake,
+    title: 'Success Stories',
+    subtitle: 'Real People, Real Impact',
   },
 ]
 
