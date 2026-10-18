@@ -24,7 +24,7 @@ export const SITE_CONFIG = {
   // ============================================================
   // 📧 CONTACT INFORMATION
   // ============================================================
-  PHONE: '+923032717680 ',
+  PHONE: '+923223152067 ',
   EMAIL: 'info@akhuwatscheme.com',
   ADDRESS: 'Lahore, Punjab, Pakistan',
   WORKING_HOURS: 'Mon - Sat: 9:00 AM - 6:00 PM',
